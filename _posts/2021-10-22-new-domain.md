@@ -1,6 +1,6 @@
 ---
 layout: post
-title: new domain
+title: a new domain
 ---
 
 in case anyone have been reading this and they notice the new url, I just want to say that, yes, I got a new domain `toml.ai`... 
