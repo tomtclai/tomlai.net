@@ -16,7 +16,7 @@ my page was already hosted by github pages; and i have a new domain `toml.ai` so
 
 I did run into some issues because github pages doesnt support multiple domains. No worries! I cloned the repo so both the new and old domain would have content😛
 
-> When i say clone, i mean i went to github, marked the old repo as a template, and then clicked a button... not git operation required (again im lazy)
+> When i say clone, i mean i went to github, marked the old repo as a template, and then clicked a button... no git operation required (again im lazy)
 
 At the end, i did decide to just route all traffic from the old url `tomtclai.com` to the new one `toml.ai` (cloudflare page rules).. so now the old repo is no longer in use 😅
 
