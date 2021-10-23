@@ -38,6 +38,9 @@ I don't believe there is a point.
 
 There will always be new wants and needs. You can chase one thing, then get it, and then pretty soon you will want someting new...
 
+
+> I wish everyone could get rich and famous and everything they ever dreamed of so they can see that’s not the answer. - Jim Carrey
+
 As in, you will never be satisfied. 
  
 Isn't it weird? As smart as we are, we forget that we are human. hardwired to never be satisfied. nothing is ever enough for us. but then i guess, thats why we are the top of the food chain..
