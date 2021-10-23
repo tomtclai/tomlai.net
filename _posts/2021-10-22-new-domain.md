@@ -22,7 +22,7 @@ At the end, i did decide to just route all traffic from the old url `tomtclai.co
 
 The last thing I learned is that if i use `.ai` top level domain, i can't really transfer registration from namecheap (where i bought the domain) to cloudflare, since cloudflare dont support the tld. Oh well... thats okay. I can still use cloudflare for DNS.
 
-> Did you know that all the novel top level domains like `.ai` `.io` are originally allocated to different regions of the world? (e.g. `.io` was meant [for indion ocean](https://en.wikipedia.org/wiki/.io), `.ai` [for anguilla (sorry)](https://en.wikipedia.org/wiki/.ai))
+> Did you know that all the novel top level domains like `.ai` and `.io` are originally allocated to different regions of the world? (e.g. `.io` was meant [for indian ocean](https://en.wikipedia.org/wiki/.io), `.ai` [for anguilla (sorry)](https://en.wikipedia.org/wiki/.ai))
 
 ### Now time for more blogging
 
