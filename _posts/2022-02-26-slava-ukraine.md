@@ -17,4 +17,4 @@ I will share [this tweet](https://twitter.com/Ukraine/status/1497594592438497282
 > BTC - `357a3So9CbsNfBBgFYACGvxxS6tMaDoa1P`
 > ETH and USDT (ERC-20) - `0x165CD37b4C644C2921454429E7F9358d18A45e14`
 
-I hope democracy prevails.
+I hope democracy prevails. 🇺🇦🇺🇦🇺🇦
