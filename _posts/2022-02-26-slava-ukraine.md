@@ -5,7 +5,7 @@ title: slava ukraine
 
 I cannot believe in 2022 we still have war. It made me very sad when I first heard the news. It reminded me of when [the chinese troops raided hong kong](https://www.news.com.au/world/shocking-footage-of-hong-kong-police-attacking-locals-inside-subway-station/video/00b07d7abe389ee631c5abf5fd377b4d). 
 
-Two days later [the video of russian tank runing a car over](https://twitter.com/Balshone/status/1497178406617759745) surfaced the internet.  I have no words. 
+Two days after the news broke, [the video of russian tank runing a car over](https://twitter.com/Balshone/status/1497178406617759745) surfaced the internet.  I have no words. 
 
 Some of my coworkers (new and old) are from Ukraine. They are safe in Canada, but their friends are not. That worries me. 
 
