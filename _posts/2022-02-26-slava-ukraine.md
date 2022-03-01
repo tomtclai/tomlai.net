@@ -1,6 +1,6 @@
 ---
 layout: post
-title: slava ukraine
+title: slava ukraini
 ---
 
 I cannot believe in 2022 we still have war. It made me very sad when I first heard the news. It reminded me of when [the chinese troops raided hong kong](https://www.news.com.au/world/shocking-footage-of-hong-kong-police-attacking-locals-inside-subway-station/video/00b07d7abe389ee631c5abf5fd377b4d). 
