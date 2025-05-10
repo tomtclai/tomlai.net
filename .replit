@@ -1,0 +1,9 @@
+
+modules = ["web", "ruby-3.2"]
+run = "bundle install && bundle exec jekyll serve --host 0.0.0.0"
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+run = ["sh", "-c", "bundle install && bundle exec jekyll serve --host 0.0.0.0"]
