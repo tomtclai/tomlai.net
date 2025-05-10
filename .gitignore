@@ -5,6 +5,11 @@ _site
 .sass-cache
 .jekyll-cache
 
+# Ruby/Bundler
+.bundle/
+vendor/
+Gemfile.lock
+
 # Numerous always-ignore extensions
 *.diff
 *.err
