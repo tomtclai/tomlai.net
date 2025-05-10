@@ -7,3 +7,24 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "bundle install && bundle exec jekyll serve --host 0.0.0.0"]
+
+[workflows]
+runButton = "Run"
+
+[[workflows.workflow]]
+name = "Run"
+author = 21766284
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bundle install && bundle exec jekyll serve --host 0.0.0.0"
+
+[[workflows.workflow]]
+name = "Run"
+author = 21766284
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bundle install && bundle exec jekyll serve --host 0.0.0.0"
