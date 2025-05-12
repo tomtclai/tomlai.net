@@ -1,6 +1,6 @@
 # Setup
 title: toms website
-url: https://tomclai.com
+url: https://tomlai.net
 paginate: 1
 baseurl: ""
 permalink: pretty
@@ -47,9 +47,9 @@ nav:
   - title: Github  
     url: https://github.com/tomtclai
 
-  - title: Twitter
-    url: https://twitter.com/toms_iphone
-    
+  - title: 🎮
+    url: /test-game.html
+
   # - title: Blog
   #   url: /archive
 
