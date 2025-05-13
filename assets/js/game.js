@@ -307,21 +307,36 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Handle navigation clicks
     document.addEventListener('click', (event) => {
-        // Check if the clicked element is a link to TestGame
-        if (event.target.matches('a[href="/test-game.html"]')) {
+        // Check if the clicked element is a link to the game
+        if (event.target.matches('a[href="/#game"]')) {
             event.preventDefault();
             // Toggle game container visibility
             const gameContainer = document.getElementById('game');
             if (gameContainer.style.display === 'none') {
                 gameContainer.style.display = 'block';
                 gameContainer.scrollIntoView({ behavior: 'smooth' });
+                // Update URL hash without triggering a scroll
+                history.pushState(null, '', '#game');
             } else {
                 gameContainer.style.display = 'none';
+                // Remove hash from URL when hiding game
+                history.pushState(null, '', '/');
             }
         }
     });
 
-    // Handle URL-based navigation
+    // Handle URL-based navigation and back/forward buttons
+    window.addEventListener('popstate', () => {
+        const gameContainer = document.getElementById('game');
+        if (window.location.hash === '#game') {
+            gameContainer.style.display = 'block';
+            gameContainer.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            gameContainer.style.display = 'none';
+        }
+    });
+
+    // Check initial URL hash
     if (window.location.hash === '#game') {
         document.getElementById('game').style.display = 'block';
         document.getElementById('game').scrollIntoView({ behavior: 'smooth' });
