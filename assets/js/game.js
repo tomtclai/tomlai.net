@@ -1,4 +1,4 @@
-class TileGame {
+export class TileGame {
     constructor(containerId) {
         // Game constants
         this.GRID_SIZE = 3;
@@ -123,7 +123,6 @@ class TileGame {
         // Initialize the game
         this.initCanvas();
         this.updateBestScore();
-        this.newGame();
     }
 
     updateBestScore() {
@@ -140,6 +139,7 @@ class TileGame {
                          (this.GRID_PADDING * 2);
         this.canvas.width = totalSize;
         this.canvas.height = totalSize;
+        this.drawGrid();
     }
 
     drawGrid() {
@@ -232,11 +232,12 @@ class TileGame {
         // Check win condition
         if (this.isWinState()) {
             this.gameState.isGameOver = true;
-            const isNewBest = !this.gameState.bestScore || this.gameState.moves < this.gameState.bestScore;
+            const currentBestScore = parseInt(localStorage.getItem('bestScore')) || 0;
+            const isNewBest = currentBestScore === 0 || this.gameState.moves < currentBestScore;
             
             if (isNewBest) {
+                localStorage.setItem('bestScore', this.gameState.moves.toString());
                 this.gameState.bestScore = this.gameState.moves;
-                localStorage.setItem('bestScore', this.gameState.moves);
                 this.updateBestScore();
                 this.messageEl.textContent = `🎉 New Best Score: ${this.gameState.moves} moves!`;
             } else {
@@ -266,7 +267,8 @@ class TileGame {
         const col = Math.floor(clickX / (this.CELL_SIZE + this.CELL_PADDING));
         const row = Math.floor(clickY / (this.CELL_SIZE + this.CELL_PADDING));
         
-        if (col >= 0 && col < this.GRID_SIZE && row >= 0 && row < this.GRID_SIZE) {
+        if (col >= 0 && col < this.GRID_SIZE && row >= 0 && row < this.GRID_SIZE &&
+            clickX >= 0 && clickY >= 0) {
             return { row, col };
         }
         return null;
@@ -288,11 +290,19 @@ class TileGame {
         this.messageEl.textContent = '';
         
         // Make a few random moves to create a solvable puzzle
+        // Store original isGameOver check function
+        const originalIsGameOver = this.isWinState;
+        // Temporarily disable win state checking during puzzle creation
+        this.isWinState = () => false;
+        
         for (let i = 0; i < 5; i++) {
             const row = Math.floor(Math.random() * this.GRID_SIZE);
             const col = Math.floor(Math.random() * this.GRID_SIZE);
             this.toggleTiles(row, col);
         }
+        
+        // Restore original isGameOver check
+        this.isWinState = originalIsGameOver;
         
         // Reset moves counter after creating puzzle
         this.gameState.moves = 0;
