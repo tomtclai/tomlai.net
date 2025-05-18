@@ -12,8 +12,7 @@ This website was setup using GitHub Pages and Jekyll
 
 - **GitHub Pages** - Hosts the website directly from my GitHub repository
 - **Jekyll** - Static site generator that converts Markdown files into a website
-- **Dark Poole** - A minimalist, dark-themed Jekyll theme
-- **Custom Game** - A tile-flipping puzzle game written in vanilla JavaScript
+- **Dark Poole** - A dark Jekyll theme
 
 ## Cost
 - 12 dollars a year as of May 2025
@@ -72,7 +71,7 @@ See [GitHub's guide on configuring a custom domain](https://docs.github.com/en/p
 ## Pros and Cons
 
 ### Advantages
-- **Zero Cost** - I pay for the custom domain name but GitHub Pages hosting is free
+- **Mostly free** - I pay for the custom domain name but GitHub Pages hosting is free
 - **Simple Deployment** - Push to main branch and it's live
 - **Version Control** - Every change is tracked in Git
 - **Static Site Performance** - Fast loading times, no database needed
