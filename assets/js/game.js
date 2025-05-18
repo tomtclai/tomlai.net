@@ -11,6 +11,7 @@ export class TileGame {
         this.container.style.display = 'none'; // Hide initially
         this.container.innerHTML = `
             <div class="game-container">
+                <button class="close-button">×</button>
                 <h2>Tile Puzzle</h2>
                 <div class="instructions">
                     <p>🎯 Goal: Make all tiles the same color (either all light or all dark)</p>
@@ -46,6 +47,23 @@ export class TileGame {
                 box-shadow: 0 2px 4px rgba(0,0,0,0.3);
                 text-align: center;
                 margin: 2rem 0;
+                position: relative;
+            }
+            .close-button {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                color: #666;
+                font-size: 2rem;
+                cursor: pointer;
+                padding: 0;
+                line-height: 1;
+                transition: color 0.2s ease;
+            }
+            .close-button:hover {
+                color: #fff;
             }
             .game-container h2 {
                 color: #ffffff;
@@ -107,6 +125,7 @@ export class TileGame {
         this.scoreDisplay = document.getElementById('scoreDisplay');
         this.bestScoreDisplay = document.getElementById('bestScoreDisplay');
         this.newGameBtn = document.getElementById('newGameBtn');
+        this.closeBtn = this.container.querySelector('.close-button');
 
         // Initialize game state
         this.gameState = {
@@ -119,6 +138,10 @@ export class TileGame {
         // Set up event listeners
         this.canvas.addEventListener('click', (event) => this.handleClick(event));
         this.newGameBtn.addEventListener('click', () => this.newGame());
+        this.closeBtn.addEventListener('click', () => {
+            this.container.style.display = 'none';
+            history.pushState(null, '', '/');
+        });
 
         // Initialize the game
         this.initCanvas();
@@ -317,8 +340,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Handle navigation clicks
     document.addEventListener('click', (event) => {
-        // Check if the clicked element is a link to the game
-        if (event.target.matches('a[href="/#game"]')) {
+        const isGameLink = event.target.matches('a[href="/#game"]') || 
+                          (event.target.closest('a') && event.target.closest('a').getAttribute('href') === '/#game');
+        
+        if (isGameLink) {
             event.preventDefault();
             // Toggle game container visibility
             const gameContainer = document.getElementById('game');

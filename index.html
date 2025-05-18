@@ -34,4 +34,11 @@ title: Home
   {% endif %}
 </div>
 
-<script src="{{ '/assets/js/game.js' | relative_url }}"></script>
+<script type="module">
+  import { TileGame } from '{{ "/assets/js/game.js" | relative_url }}';
+  window.addEventListener('DOMContentLoaded', () => {
+    const game = new TileGame('game');
+    game.container.style.display = 'none'; // Hide game initially
+    game.newGame();
+  });
+</script>

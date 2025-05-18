@@ -13,6 +13,9 @@ describe('TileGame', () => {
         // Clear localStorage before each test
         localStorage.clear();
         
+        // Mock history.pushState
+        window.history.pushState = jest.fn();
+        
         // Create new game instance
         game = new TileGame('game');
     });
@@ -42,6 +45,43 @@ describe('TileGame', () => {
             expect(document.getElementById('scoreDisplay')).toBeTruthy();
             expect(document.getElementById('bestScoreDisplay')).toBeTruthy();
             expect(document.getElementById('newGameBtn')).toBeTruthy();
+            expect(document.querySelector('.close-button')).toBeTruthy();
+        });
+    });
+
+    describe('Close Button', () => {
+        test('should hide game container when close button is clicked', () => {
+            // Show the game container first
+            game.container.style.display = 'block';
+            
+            // Click the close button
+            const closeButton = document.querySelector('.close-button');
+            closeButton.click();
+            
+            // Check if container is hidden
+            expect(game.container.style.display).toBe('none');
+        });
+
+        test('should update URL when close button is clicked', () => {
+            // Show the game container and set URL hash
+            game.container.style.display = 'block';
+            window.location.hash = '#game';
+            
+            // Click the close button
+            const closeButton = document.querySelector('.close-button');
+            closeButton.click();
+            
+            // Check if history.pushState was called correctly
+            expect(window.history.pushState).toHaveBeenCalledWith(null, '', '/');
+        });
+
+        test('should be positioned correctly in the game container', () => {
+            const closeButton = document.querySelector('.close-button');
+            const styles = window.getComputedStyle(closeButton);
+            
+            expect(styles.position).toBe('absolute');
+            expect(styles.top).toBe('1rem');
+            expect(styles.right).toBe('1rem');
         });
     });
 
