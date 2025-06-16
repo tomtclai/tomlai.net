@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setting Up Personal Website with GitHub Pages and Jekyll
-date: 2024-05-17 12:00:00 -0700
+date: 2025-05-17 12:00:00 -0700
 categories: [tech]
 tags: [github-pages, jekyll, web, dns]
 ---
