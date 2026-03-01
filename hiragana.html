@@ -209,6 +209,59 @@ permalink: /hiragana/
   .w-cell .kana { color: #444; }
   .w-cell .romaji { color: #444; }
 
+  /* Wide screens: 2 rows side by side */
+  @media (min-width: 768px) {
+    .grid {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .row {
+      flex: 0 0 calc(50% - 0.75vw);
+    }
+    .row-label {
+      width: 5vw;
+      min-width: 5vw;
+      font-size: clamp(8px, 1.2vw, 14px);
+      border-radius: 1vw;
+    }
+    .cell {
+      border-radius: 1.5vw;
+      padding: 1vw 0.5vw;
+      max-width: calc((100% - 4 * 1vw) / 5);
+    }
+    .cells { gap: 1vw; }
+    .cell .kana { font-size: clamp(18px, 3.2vw, 44px); }
+    .cell .romaji { font-size: clamp(8px, 1.2vw, 16px); }
+    .cell .vocab { font-size: clamp(7px, 1vw, 14px); }
+    .cell .vocab-romaji { font-size: clamp(6px, 0.8vw, 12px); }
+    .cell svg { width: clamp(28px, 4vw, 56px); height: clamp(28px, 4vw, 56px); }
+    .cell .emoji-icon { font-size: clamp(22px, 3.2vw, 44px); }
+    .cell .vocab-en { font-size: clamp(6px, 0.7vw, 11px); }
+    .cell-empty { flex: 0 0 calc((100% - 4 * 1vw) / 5); }
+  }
+
+  /* Very wide screens: 3 rows side by side */
+  @media (min-width: 1200px) {
+    .row {
+      flex: 0 0 calc(33.333% - 1vw);
+    }
+    .row-label {
+      width: 3.5vw;
+      min-width: 3.5vw;
+      font-size: clamp(8px, 0.9vw, 14px);
+    }
+    .cell .kana { font-size: clamp(16px, 2.2vw, 40px); }
+    .cell .romaji { font-size: clamp(7px, 0.9vw, 14px); }
+    .cell .vocab { font-size: clamp(6px, 0.7vw, 12px); }
+    .cell .vocab-romaji { font-size: clamp(5px, 0.6vw, 10px); }
+    .cell svg { width: clamp(24px, 2.8vw, 48px); height: clamp(24px, 2.8vw, 48px); }
+    .cell .emoji-icon { font-size: clamp(20px, 2.2vw, 40px); }
+    .cell .vocab-en { font-size: clamp(5px, 0.55vw, 10px); }
+    .cell-empty { flex: 0 0 calc((100% - 4 * 0.8vw) / 5); }
+    .cell { max-width: calc((100% - 4 * 0.8vw) / 5); border-radius: 1vw; padding: 0.8vw 0.4vw; }
+    .cells { gap: 0.8vw; }
+  }
+
   @media print {
     body { margin: 0; padding: 6mm; }
     * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
