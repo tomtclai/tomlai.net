@@ -1,0 +1,1507 @@
+---
+layout: null
+permalink: /japanese/
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japanese Sounds</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a1a;
+    font-family: 'Nunito', sans-serif;
+    width: 100%;
+    max-width: 100vw;
+    padding: 3vw 2vw 4vw;
+    color: #e8e8e8;
+    overflow-x: hidden;
+  }
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    margin-bottom: 2vw;
+  }
+  .home-btn {
+    font-size: clamp(20px, 4vw, 34px);
+    color: #aaa;
+    text-decoration: none;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .home-btn:hover { color: #e8e8e8; }
+  header h1 {
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: clamp(16px, 4.5vw, 36px);
+    color: #e8e8e8;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+  }
+  .description {
+    margin: 0 0 2vw;
+    background: transparent;
+    border-radius: 1.5vw;
+    padding: clamp(12px, 2vw, 24px) clamp(14px, 2.5vw, 28px);
+    font-size: clamp(11px, 1.8vw, 15px);
+    line-height: 1.65;
+    color: #ccc;
+  }
+  .description p { margin-bottom: 0.8em; }
+  .description p:last-child { margin-bottom: 0; }
+  .description strong { color: #e8e8e8; }
+  .description ul {
+    margin: 0.3em 0 0.8em 1.4em;
+    list-style: disc;
+  }
+  .description ul li { margin-bottom: 0.2em; }
+
+  /* Description toggle */
+  .desc-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(11px, 1.8vw, 15px);
+    font-weight: 700;
+    color: #aaa;
+    padding: 0 0 0.6em;
+    margin-bottom: 0.4em;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .desc-toggle:hover { color: #e8e8e8; }
+  #desc-body { overflow: hidden; transition: max-height 0.25s ease; }
+
+  @media (prefers-color-scheme: light) {
+    .desc-toggle { color: #888; border-bottom-color: rgba(0,0,0,0.1); }
+    .desc-toggle:hover { color: #2c2c2c; }
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+    margin-bottom: 2vw;
+  }
+  .tab-btn {
+    font-family: 'Noto Sans JP', 'Nunito', sans-serif;
+    font-size: clamp(14px, 2.5vw, 22px);
+    font-weight: 700;
+    padding: 0.5em 1.4em;
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    background: #333;
+    color: #aaa;
+    transition: background 0.15s, color 0.15s;
+  }
+  .tab-btn.active {
+    background: #e8e8e8;
+    color: #1a1a1a;
+  }
+
+  .tab-panels { position: relative; }
+  .tab-panel { display: block; }
+  .tab-panel:not(.active) {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vw;
+  }
+
+  .row {
+    display: flex;
+    align-items: stretch;
+    gap: 1.5vw;
+  }
+
+  .row-label {
+    width: 7vw;
+    min-width: 7vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: clamp(8px, 2vw, 16px);
+    letter-spacing: 0.3px;
+    color: #fff;
+    border-radius: 1.5vw;
+    text-transform: uppercase;
+  }
+
+  .cells {
+    display: flex;
+    gap: 1.5vw;
+    flex: 1;
+  }
+
+  .cell {
+    flex: 1;
+    border-radius: 2.5vw;
+    padding: 1.5vw 1vw 1.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    position: relative;
+  }
+
+  .cell .kana {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 6vw, 52px);
+    line-height: 1;
+    margin-bottom: 0.3vw;
+  }
+
+  .cell .romaji {
+    font-size: clamp(8px, 2.2vw, 18px);
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    text-transform: lowercase;
+    opacity: 0.85;
+    margin-bottom: 0.5vw;
+  }
+
+  .cell .vocab {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: clamp(7px, 1.9vw, 16px);
+    font-weight: 700;
+    margin-bottom: 0.1vw;
+    opacity: 0.9;
+    text-align: center;
+  }
+
+  .cell .vocab-romaji {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(6px, 1.5vw, 13px);
+    font-weight: 600;
+    opacity: 0.75;
+    text-align: center;
+    margin-bottom: 0.4vw;
+    font-style: italic;
+  }
+
+  .cell svg {
+    width: clamp(28px, 7.5vw, 64px);
+    height: clamp(28px, 7.5vw, 64px);
+    display: block;
+  }
+
+  .cell .emoji-icon {
+    font-size: clamp(22px, 6vw, 52px);
+    line-height: 1;
+    display: block;
+    text-align: center;
+  }
+
+  .cell .vocab-en {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(6px, 1.4vw, 12px);
+    font-weight: 700;
+    opacity: 0.7;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-top: 0.2vw;
+  }
+
+  /* Prevent cells in short rows (Y, W) from stretching wider than 5-cell rows */
+  .cell {
+    max-width: calc((100% - 4 * 1.5vw) / 5);
+  }
+
+  /* Empty spacer cells - same size as real cells but invisible */
+  .cell-empty {
+    flex: 0 0 calc((100% - 4 * 1.5vw) / 5);
+    border-radius: 2.5vw;
+    background: transparent;
+  }
+
+  /* Row color themes — one color per row, rest computed */
+  .row:has(.vowel-label) { --c: #e07ca0; }
+  .row:has(.k-label)     { --c: #e08c3a; }
+  .row:has(.s-label)     { --c: #d4a020; }
+  .row:has(.t-label)     { --c: #5aaa5a; }
+  .row:has(.n-label)     { --c: #3a9ec0; }
+  .row:has(.h-label)     { --c: #7070e0; }
+  .row:has(.m-label)     { --c: #c060c0; }
+  .row:has(.y-label)     { --c: #c08030; }
+  .row:has(.r-label)     { --c: #40a888; }
+  .row:has(.w-label)     { --c: #888; }
+
+  .row-label { background: var(--c); }
+  .cell {
+    background: color-mix(in srgb, var(--c), black 35%);
+    color: color-mix(in srgb, var(--c), white 50%);
+  }
+
+  /* Wide screens: 2 rows side by side */
+  @media (min-width: 768px) {
+    .grid {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .row {
+      flex: 0 0 calc(50% - 0.75vw);
+    }
+    .row-label {
+      width: 5vw;
+      min-width: 5vw;
+      font-size: clamp(8px, 1.2vw, 14px);
+      border-radius: 1vw;
+    }
+    .cell {
+      border-radius: 1.5vw;
+      padding: 1vw 0.5vw;
+      max-width: calc((100% - 4 * 1vw) / 5);
+    }
+    .cells { gap: 1vw; }
+    .cell .kana { font-size: clamp(18px, 3.2vw, 44px); }
+    .cell .romaji { font-size: clamp(8px, 1.2vw, 16px); }
+    .cell .vocab { font-size: clamp(7px, 1vw, 14px); }
+    .cell .vocab-romaji { font-size: clamp(6px, 0.8vw, 12px); }
+    .cell svg { width: clamp(28px, 4vw, 56px); height: clamp(28px, 4vw, 56px); }
+    .cell .emoji-icon { font-size: clamp(22px, 3.2vw, 44px); }
+    .cell .vocab-en { font-size: clamp(6px, 0.7vw, 11px); }
+    .cell-empty { flex: 0 0 calc((100% - 4 * 1vw) / 5); }
+  }
+
+  /* Very wide screens: 3 rows side by side */
+  @media (min-width: 1200px) {
+    .row {
+      flex: 0 0 calc(33.333% - 1vw);
+    }
+    .row-label {
+      width: 3.5vw;
+      min-width: 3.5vw;
+      font-size: clamp(8px, 0.9vw, 14px);
+    }
+    .cell .kana { font-size: clamp(16px, 2.2vw, 40px); }
+    .cell .romaji { font-size: clamp(7px, 0.9vw, 14px); }
+    .cell .vocab { font-size: clamp(6px, 0.7vw, 12px); }
+    .cell .vocab-romaji { font-size: clamp(5px, 0.6vw, 10px); }
+    .cell svg { width: clamp(24px, 2.8vw, 48px); height: clamp(24px, 2.8vw, 48px); }
+    .cell .emoji-icon { font-size: clamp(20px, 2.2vw, 40px); }
+    .cell .vocab-en { font-size: clamp(5px, 0.55vw, 10px); }
+    .cell-empty { flex: 0 0 calc((100% - 4 * 0.8vw) / 5); }
+    .cell { max-width: calc((100% - 4 * 0.8vw) / 5); border-radius: 1vw; padding: 0.8vw 0.4vw; }
+    .cells { gap: 0.8vw; }
+  }
+
+  .tab-btn:focus-visible {
+    outline: 3px solid #e8e8e8;
+    outline-offset: 2px;
+  }
+
+  /* tvOS-style tilt hover */
+  .cell {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    will-change: transform;
+  }
+  .cell:hover { z-index: 1; }
+  .cell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.22) 0%, transparent 65%);
+    opacity: 0;
+    transition: opacity 0.15s;
+    pointer-events: none;
+  }
+  .cell:hover::after { opacity: 1; }
+
+  @media print {
+    body { margin: 0; padding: 6mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .tabs { display: none; }
+    .tab-panel { display: block !important; }
+  }
+
+  /* Light mode override */
+  @media (prefers-color-scheme: light) {
+    body { background: #fdf8f3; color: #2c2c2c; }
+    header h1 { color: #3a3a3a; }
+    .home-btn { color: #888; }
+    .home-btn:hover { color: #2c2c2c; }
+    .description { background: transparent; color: #444; }
+    .description strong { color: #2c2c2c; }
+    .tab-btn { background: #e0d8d0; color: #555; }
+    .tab-btn.active { background: #3a3a3a; color: #fff; }
+    .tab-btn:focus-visible { outline-color: #3a3a3a; }
+    .cell {
+      background: color-mix(in srgb, var(--c), white 70%);
+      color: color-mix(in srgb, var(--c), black 30%);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="home-btn">◀</a>
+  <h1 id="page-title">Hiragana Sounds</h1>
+</header>
+
+<div class="description">
+  <button class="desc-toggle" id="desc-toggle" aria-expanded="true" aria-controls="desc-body"><span>About</span><span id="desc-indicator">[−]</span></button>
+  <div id="desc-body">
+    <p>Hiragana and katakana are both Japanese syllabic scripts (kana), each with ~46 base characters representing the same set of sounds. The difference is their use:</p>
+    <p><strong>Hiragana (ひらがな)</strong> — rounded, cursive shapes</p>
+    <ul>
+      <li>Native Japanese words</li>
+      <li>Grammatical elements (verb endings, particles)</li>
+      <li>Words without kanji or with kanji the writer wants to avoid</li>
+    </ul>
+    <p><strong>Katakana (カタカナ)</strong> — angular, sharp shapes</p>
+    <ul>
+      <li>Foreign loanwords (e.g., コーヒー <em>kōhī</em> = coffee)</li>
+      <li>Foreign names and places</li>
+      <li>Scientific terms, onomatopoeia, emphasis (like italics)</li>
+    </ul>
+    <p>Both are phonetic and encode the same sounds — they're parallel systems.</p>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="hiragana">ひらがな</button>
+  <button class="tab-btn" data-tab="katakana">カタカナ</button>
+</div>
+
+<div class="tab-panels">
+<!-- HIRAGANA PANEL -->
+<div id="tab-hiragana" class="tab-panel active">
+<div class="grid">
+
+<!-- VOWELS ROW -->
+<div class="row">
+  <div class="row-label vowel-label">V</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">あ</div>
+      <div class="romaji">a</div>
+      <div class="vocab">あめ</div>
+      <div class="vocab-romaji">ame</div>
+      <div class="emoji-icon">🌧️</div>
+      <div class="vocab-en">rain</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">い</div>
+      <div class="romaji">i</div>
+      <div class="vocab">いぬ</div>
+      <div class="vocab-romaji">inu</div>
+      <div class="emoji-icon">🐶</div>
+      <div class="vocab-en">dog</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">う</div>
+      <div class="romaji">u</div>
+      <div class="vocab">うみ</div>
+      <div class="vocab-romaji">umi</div>
+      <div class="emoji-icon">🌊</div>
+      <div class="vocab-en">ocean</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">え</div>
+      <div class="romaji">e</div>
+      <div class="vocab">えき</div>
+      <div class="vocab-romaji">eki</div>
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Japanese station building (Ueno-style) -->
+        <!-- sky -->
+        <rect x="0" y="0" width="40" height="40" fill="#d8eef8"/>
+        <!-- ground -->
+        <rect x="0" y="34" width="40" height="6" fill="#c8c0b0"/>
+        <!-- main building facade -->
+        <rect x="2" y="12" width="36" height="22" fill="#d8d0c0"/>
+        <!-- roof / top band -->
+        <rect x="2" y="9" width="36" height="5" fill="#c8bfae"/>
+        <!-- columns (6 tall columns) -->
+        <rect x="4"  y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <rect x="10" y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <rect x="16" y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <rect x="22" y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <rect x="28" y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <rect x="33.5" y="12" width="2.5" height="22" fill="#b8b0a0"/>
+        <!-- tall windows between columns -->
+        <rect x="7"  y="14" width="2.5" height="10" rx="0.5" fill="#7a9ab8"/>
+        <rect x="13" y="14" width="2.5" height="10" rx="0.5" fill="#7a9ab8"/>
+        <rect x="19" y="14" width="2.5" height="10" rx="0.5" fill="#7a9ab8"/>
+        <rect x="25" y="14" width="2.5" height="10" rx="0.5" fill="#7a9ab8"/>
+        <rect x="31" y="14" width="2.5" height="10" rx="0.5" fill="#7a9ab8"/>
+        <!-- entrance canopy -->
+        <rect x="6" y="27" width="28" height="3" rx="0.5" fill="#a8a090"/>
+        <rect x="8" y="30" width="5" height="4" fill="#b8b0a0"/>
+        <rect x="16" y="30" width="8" height="4" fill="#9a9282"/>
+        <rect x="27" y="30" width="5" height="4" fill="#b8b0a0"/>
+        <!-- 駅 sign on top in green like Ueno -->
+        <text x="20" y="10" text-anchor="middle" font-size="9" fill="#3a9a3a" font-family="Noto Sans JP" font-weight="900">駅</text>
+      </svg>
+      <div class="vocab-en">station</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">お</div>
+      <div class="romaji">o</div>
+      <div class="vocab">おちゃ</div>
+      <div class="vocab-romaji">ocha</div>
+      <div class="emoji-icon">🍵</div>
+      <div class="vocab-en">green tea</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- K ROW -->
+<div class="row">
+  <div class="row-label k-label">K</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">か</div>
+      <div class="romaji">ka</div>
+      <div class="vocab">かさ</div>
+      <div class="vocab-romaji">kasa</div>
+      <div class="emoji-icon">☂️</div>
+      <div class="vocab-en">umbrella</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">き</div>
+      <div class="romaji">ki</div>
+      <div class="vocab">き</div>
+      <div class="vocab-romaji">ki</div>
+      <div class="emoji-icon">🌳</div>
+      <div class="vocab-en">tree</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">く</div>
+      <div class="romaji">ku</div>
+      <div class="vocab">くるま</div>
+      <div class="vocab-romaji">kuruma</div>
+      <div class="emoji-icon">🚗</div>
+      <div class="vocab-en">car</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">け</div>
+      <div class="romaji">ke</div>
+      <div class="vocab">けさ</div>
+      <div class="vocab-romaji">kesa</div>
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- sunrise over houses -->
+        <rect x="2" y="26" width="36" height="12" rx="0" fill="#a0d8b0"/>
+        <!-- sun half rising -->
+        <path d="M10 26 Q10 18 20 18 Q30 18 30 26 Z" fill="#ffd966"/>
+        <!-- sun rays -->
+        <line x1="20" y1="16" x2="20" y2="12" stroke="#ffb030" stroke-width="1.5"/>
+        <line x1="28" y1="19" x2="31" y2="16" stroke="#ffb030" stroke-width="1.5"/>
+        <line x1="12" y1="19" x2="9" y2="16" stroke="#ffb030" stroke-width="1.5"/>
+        <!-- houses -->
+        <rect x="5" y="26" width="10" height="10" fill="#e8c097"/>
+        <polygon points="5,26 10,20 15,26" fill="#d4805a"/>
+        <rect x="8" y="30" width="4" height="6" fill="#8b5e3c"/>
+        <rect x="22" y="26" width="12" height="10" fill="#e8d0b0"/>
+        <polygon points="22,26 28,19 34,26" fill="#c87060"/>
+        <rect x="25" y="30" width="4" height="6" fill="#7a4e30"/>
+      </svg>
+      <div class="vocab-en">morning</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">こ</div>
+      <div class="romaji">ko</div>
+      <div class="vocab">こえ</div>
+      <div class="vocab-romaji">koe</div>
+      <div class="emoji-icon">💬</div>
+      <div class="vocab-en">voice</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- S ROW -->
+<div class="row">
+  <div class="row-label s-label">S</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">さ</div>
+      <div class="romaji">sa</div>
+      <div class="vocab">さかな</div>
+      <div class="vocab-romaji">sakana</div>
+      <div class="emoji-icon">🐟</div>
+      <div class="vocab-en">fish</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">し</div>
+      <div class="romaji">shi</div>
+      <div class="vocab">しお</div>
+      <div class="vocab-romaji">shio</div>
+      <div class="emoji-icon">🧂</div>
+      <div class="vocab-en">salt</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">す</div>
+      <div class="romaji">su</div>
+      <div class="vocab">すし</div>
+      <div class="vocab-romaji">sushi</div>
+      <div class="emoji-icon">🍣</div>
+      <div class="vocab-en">sushi</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">せ</div>
+      <div class="romaji">se</div>
+      <div class="vocab">せんせい</div>
+      <div class="vocab-romaji">sensei</div>
+      <div class="emoji-icon">👩‍🏫</div>
+      <div class="vocab-en">teacher</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">そ</div>
+      <div class="romaji">so</div>
+      <div class="vocab">そら</div>
+      <div class="vocab-romaji">sora</div>
+      <div class="emoji-icon">🌤️</div>
+      <div class="vocab-en">sky</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- T ROW -->
+<div class="row">
+  <div class="row-label t-label">T</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">た</div>
+      <div class="romaji">ta</div>
+      <div class="vocab">たべる</div>
+      <div class="vocab-romaji">taberu</div>
+      <div class="emoji-icon">🍽️</div>
+      <div class="vocab-en">eat</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ち</div>
+      <div class="romaji">chi</div>
+      <div class="vocab">ちず</div>
+      <div class="vocab-romaji">chizu</div>
+      <div class="emoji-icon">🗺️</div>
+      <div class="vocab-en">map</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">つ</div>
+      <div class="romaji">tsu</div>
+      <div class="vocab">つき</div>
+      <div class="vocab-romaji">tsuki</div>
+      <div class="emoji-icon">🌙</div>
+      <div class="vocab-en">moon</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">て</div>
+      <div class="romaji">te</div>
+      <div class="vocab">て</div>
+      <div class="vocab-romaji">te</div>
+      <div class="emoji-icon">✋</div>
+      <div class="vocab-en">hand</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">と</div>
+      <div class="romaji">to</div>
+      <div class="vocab">とき</div>
+      <div class="vocab-romaji">toki</div>
+      <div class="emoji-icon">⏰</div>
+      <div class="vocab-en">time</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- N ROW -->
+<div class="row">
+  <div class="row-label n-label">N</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">な</div>
+      <div class="romaji">na</div>
+      <div class="vocab">なまえ</div>
+      <div class="vocab-romaji">namae</div>
+      <div class="emoji-icon">🪪</div>
+      <div class="vocab-en">name</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">に</div>
+      <div class="romaji">ni</div>
+      <div class="vocab">にく</div>
+      <div class="vocab-romaji">niku</div>
+      <div class="emoji-icon">🥩</div>
+      <div class="vocab-en">meat</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ぬ</div>
+      <div class="romaji">nu</div>
+      <div class="vocab">ぬの</div>
+      <div class="vocab-romaji">nuno</div>
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- cloth / fabric -->
+        <path d="M6 12 Q10 8 14 12 Q18 16 22 12 Q26 8 30 12 Q34 16 38 12 L38 28 Q34 32 30 28 Q26 24 22 28 Q18 32 14 28 Q10 24 6 28 Z" fill="#88aadd"/>
+        <path d="M6 12 Q10 8 14 12 Q18 16 22 12 Q26 8 30 12 Q34 16 38 12" stroke="#6688bb" stroke-width="1" fill="none"/>
+        <path d="M6 18 Q10 14 14 18 Q18 22 22 18 Q26 14 30 18 Q34 22 38 18" stroke="#aac4ee" stroke-width="0.8" fill="none"/>
+        <path d="M6 24 Q10 20 14 24 Q18 28 22 24 Q26 20 30 24 Q34 28 38 24" stroke="#aac4ee" stroke-width="0.8" fill="none"/>
+      </svg>
+      <div class="vocab-en">cloth</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ね</div>
+      <div class="romaji">ne</div>
+      <div class="vocab">ねこ</div>
+      <div class="vocab-romaji">neko</div>
+      <div class="emoji-icon">🐱</div>
+      <div class="vocab-en">cat</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">の</div>
+      <div class="romaji">no</div>
+      <div class="vocab">のみもの</div>
+      <div class="vocab-romaji">nomimono</div>
+      <div class="emoji-icon">🥤</div>
+      <div class="vocab-en">drink</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- H ROW -->
+<div class="row">
+  <div class="row-label h-label">H</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">は</div>
+      <div class="romaji">ha</div>
+      <div class="vocab">はな</div>
+      <div class="vocab-romaji">hana</div>
+      <div class="emoji-icon">🌸</div>
+      <div class="vocab-en">flower</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ひ</div>
+      <div class="romaji">hi</div>
+      <div class="vocab">ひる</div>
+      <div class="vocab-romaji">hiru</div>
+      <div class="emoji-icon">☀️</div>
+      <div class="vocab-en">midday</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ふ</div>
+      <div class="romaji">fu</div>
+      <div class="vocab">ふゆ</div>
+      <div class="vocab-romaji">fuyu</div>
+      <div class="emoji-icon">❄️</div>
+      <div class="vocab-en">winter</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">へ</div>
+      <div class="romaji">he</div>
+      <div class="vocab">へや</div>
+      <div class="vocab-romaji">heya</div>
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- room interior -->
+        <!-- floor + walls perspective -->
+        <polygon points="4,4 36,4 36,36 4,36" fill="#f5eedf"/>
+        <polygon points="4,4 36,4 28,12 12,12" fill="#e0d4c0"/>
+        <polygon points="4,4 12,12 12,36 4,36" fill="#d8ccb8"/>
+        <!-- bed -->
+        <rect x="14" y="20" width="20" height="12" rx="2" fill="#7070c8"/>
+        <rect x="14" y="20" width="20" height="5" rx="2" fill="#9090e0"/>
+        <rect x="26" y="14" width="6" height="8" rx="1" fill="#7060a0"/>
+        <!-- window on left wall -->
+        <rect x="5" y="16" width="6" height="8" rx="1" fill="#aad8f0"/>
+        <line x1="8" y1="16" x2="8" y2="24" stroke="#888" stroke-width="0.8"/>
+        <line x1="5" y1="20" x2="11" y2="20" stroke="#888" stroke-width="0.8"/>
+        <!-- desk on floor -->
+        <rect x="14" y="16" width="10" height="4" rx="1" fill="#c0a060"/>
+        <line x1="15" y1="20" x2="15" y2="24" stroke="#a08040" stroke-width="1.5"/>
+        <line x1="23" y1="20" x2="23" y2="24" stroke="#a08040" stroke-width="1.5"/>
+      </svg>
+      <div class="vocab-en">room</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ほ</div>
+      <div class="romaji">ho</div>
+      <div class="vocab">ほし</div>
+      <div class="vocab-romaji">hoshi</div>
+      <div class="emoji-icon">⭐</div>
+      <div class="vocab-en">stars</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- M ROW -->
+<div class="row">
+  <div class="row-label m-label">M</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ま</div>
+      <div class="romaji">ma</div>
+      <div class="vocab">まど</div>
+      <div class="vocab-romaji">mado</div>
+      <div class="emoji-icon">🪟</div>
+      <div class="vocab-en">window</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">み</div>
+      <div class="romaji">mi</div>
+      <div class="vocab">みず</div>
+      <div class="vocab-romaji">mizu</div>
+      <div class="emoji-icon">💧</div>
+      <div class="vocab-en">water</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">む</div>
+      <div class="romaji">mu</div>
+      <div class="vocab">むし</div>
+      <div class="vocab-romaji">mushi</div>
+      <div class="emoji-icon">🐛</div>
+      <div class="vocab-en">insect</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">め</div>
+      <div class="romaji">me</div>
+      <div class="vocab">め</div>
+      <div class="vocab-romaji">me</div>
+      <div class="emoji-icon">👁️</div>
+      <div class="vocab-en">eye</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">も</div>
+      <div class="romaji">mo</div>
+      <div class="vocab">もり</div>
+      <div class="vocab-romaji">mori</div>
+      <div class="emoji-icon">🌲</div>
+      <div class="vocab-en">forest</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Y ROW -->
+<div class="row">
+  <div class="row-label y-label">Y</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">や</div>
+      <div class="romaji">ya</div>
+      <div class="vocab">やま</div>
+      <div class="vocab-romaji">yama</div>
+      <div class="emoji-icon">⛰️</div>
+      <div class="vocab-en">mountain</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ゆ</div>
+      <div class="romaji">yu</div>
+      <div class="vocab">ゆき</div>
+      <div class="vocab-romaji">yuki</div>
+      <div class="emoji-icon">❄️</div>
+      <div class="vocab-en">snow</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">よ</div>
+      <div class="romaji">yo</div>
+      <div class="vocab">よる</div>
+      <div class="vocab-romaji">yoru</div>
+      <div class="emoji-icon">🌃</div>
+      <div class="vocab-en">night</div>
+    </div>
+
+    <!-- empty spacers for Y row (only 3 kana) -->
+    <div class="cell-empty"></div>
+    <div class="cell-empty"></div>
+
+  </div>
+</div>
+
+<!-- R ROW -->
+<div class="row">
+  <div class="row-label r-label">R</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ら</div>
+      <div class="romaji">ra</div>
+      <div class="vocab">らーめん</div>
+      <div class="vocab-romaji">rāmen</div>
+      <div class="emoji-icon">🍜</div>
+      <div class="vocab-en">ramen</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">り</div>
+      <div class="romaji">ri</div>
+      <div class="vocab">りんご</div>
+      <div class="vocab-romaji">ringo</div>
+      <div class="emoji-icon">🍎</div>
+      <div class="vocab-en">apple</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">る</div>
+      <div class="romaji">ru</div>
+      <div class="vocab">るす</div>
+      <div class="vocab-romaji">rusu</div>
+      <div class="emoji-icon">🏠</div>
+      <div class="vocab-en">away</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">れ</div>
+      <div class="romaji">re</div>
+      <div class="vocab">れい</div>
+      <div class="vocab-romaji">rei</div>
+      <div class="emoji-icon">0️⃣</div>
+      <div class="vocab-en">zero</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ろ</div>
+      <div class="romaji">ro</div>
+      <div class="vocab">ろく</div>
+      <div class="vocab-romaji">roku</div>
+      <div class="emoji-icon">6️⃣</div>
+      <div class="vocab-en">six</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- W ROW + N -->
+<div class="row">
+  <div class="row-label w-label">W·N</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">わ</div>
+      <div class="romaji">wa</div>
+      <div class="vocab">わたし</div>
+      <div class="vocab-romaji">watashi</div>
+      <div class="emoji-icon">🙋</div>
+      <div class="vocab-en">I / me</div>
+    </div>
+
+    <div class="cell" style="justify-content: flex-start; padding-top: 1.5vw;">
+      <div class="kana">を</div>
+      <div class="romaji">o</div>
+      <div class="vocab">を</div>
+      <div class="vocab-romaji">wo</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ん</div>
+      <div class="romaji">n</div>
+      <div class="vocab">ほん</div>
+      <div class="vocab-romaji">hon</div>
+      <div class="emoji-icon">📚</div>
+      <div class="vocab-en">book</div>
+    </div>
+
+    <!-- empty spacers -->
+    <div class="cell-empty"></div>
+    <div class="cell-empty"></div>
+
+  </div>
+</div>
+
+</div><!-- end .grid -->
+</div><!-- end #tab-hiragana -->
+
+<!-- KATAKANA PANEL -->
+<div id="tab-katakana" class="tab-panel">
+<div class="grid">
+
+<!-- VOWELS ROW -->
+<div class="row">
+  <div class="row-label vowel-label">V</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ア</div>
+      <div class="romaji">a</div>
+      <div class="vocab">アイス</div>
+      <div class="vocab-romaji">aisu</div>
+      <div class="emoji-icon">🍦</div>
+      <div class="vocab-en">ice cream</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">イ</div>
+      <div class="romaji">i</div>
+      <div class="vocab">インク</div>
+      <div class="vocab-romaji">inku</div>
+      <div class="emoji-icon">🖊️</div>
+      <div class="vocab-en">ink</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ウ</div>
+      <div class="romaji">u</div>
+      <div class="vocab">ウイルス</div>
+      <div class="vocab-romaji">uirusu</div>
+      <div class="emoji-icon">🦠</div>
+      <div class="vocab-en">virus</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">エ</div>
+      <div class="romaji">e</div>
+      <div class="vocab">エアコン</div>
+      <div class="vocab-romaji">eakon</div>
+      <div class="emoji-icon">❄️</div>
+      <div class="vocab-en">air conditioner</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">オ</div>
+      <div class="romaji">o</div>
+      <div class="vocab">オレンジ</div>
+      <div class="vocab-romaji">orenji</div>
+      <div class="emoji-icon">🍊</div>
+      <div class="vocab-en">orange</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- K ROW -->
+<div class="row">
+  <div class="row-label k-label">K</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">カ</div>
+      <div class="romaji">ka</div>
+      <div class="vocab">カメラ</div>
+      <div class="vocab-romaji">kamera</div>
+      <div class="emoji-icon">📷</div>
+      <div class="vocab-en">camera</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">キ</div>
+      <div class="romaji">ki</div>
+      <div class="vocab">キー</div>
+      <div class="vocab-romaji">kī</div>
+      <div class="emoji-icon">🔑</div>
+      <div class="vocab-en">key</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ク</div>
+      <div class="romaji">ku</div>
+      <div class="vocab">クッキー</div>
+      <div class="vocab-romaji">kukkī</div>
+      <div class="emoji-icon">🍪</div>
+      <div class="vocab-en">cookie</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ケ</div>
+      <div class="romaji">ke</div>
+      <div class="vocab">ケーキ</div>
+      <div class="vocab-romaji">kēki</div>
+      <div class="emoji-icon">🎂</div>
+      <div class="vocab-en">cake</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">コ</div>
+      <div class="romaji">ko</div>
+      <div class="vocab">コーヒー</div>
+      <div class="vocab-romaji">kōhī</div>
+      <div class="emoji-icon">☕</div>
+      <div class="vocab-en">coffee</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- S ROW -->
+<div class="row">
+  <div class="row-label s-label">S</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">サ</div>
+      <div class="romaji">sa</div>
+      <div class="vocab">サッカー</div>
+      <div class="vocab-romaji">sakkā</div>
+      <div class="emoji-icon">⚽</div>
+      <div class="vocab-en">soccer</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">シ</div>
+      <div class="romaji">shi</div>
+      <div class="vocab">シャツ</div>
+      <div class="vocab-romaji">shatsu</div>
+      <div class="emoji-icon">👕</div>
+      <div class="vocab-en">shirt</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ス</div>
+      <div class="romaji">su</div>
+      <div class="vocab">スポーツ</div>
+      <div class="vocab-romaji">supōtsu</div>
+      <div class="emoji-icon">🏅</div>
+      <div class="vocab-en">sports</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">セ</div>
+      <div class="romaji">se</div>
+      <div class="vocab">セーター</div>
+      <div class="vocab-romaji">sētā</div>
+      <div class="emoji-icon">🧥</div>
+      <div class="vocab-en">sweater</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ソ</div>
+      <div class="romaji">so</div>
+      <div class="vocab">ソファ</div>
+      <div class="vocab-romaji">sofa</div>
+      <div class="emoji-icon">🛋️</div>
+      <div class="vocab-en">sofa</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- T ROW -->
+<div class="row">
+  <div class="row-label t-label">T</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">タ</div>
+      <div class="romaji">ta</div>
+      <div class="vocab">タクシー</div>
+      <div class="vocab-romaji">takushī</div>
+      <div class="emoji-icon">🚕</div>
+      <div class="vocab-en">taxi</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">チ</div>
+      <div class="romaji">chi</div>
+      <div class="vocab">チョコレート</div>
+      <div class="vocab-romaji">chokorēto</div>
+      <div class="emoji-icon">🍫</div>
+      <div class="vocab-en">chocolate</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ツ</div>
+      <div class="romaji">tsu</div>
+      <div class="vocab">ツアー</div>
+      <div class="vocab-romaji">tsuā</div>
+      <div class="emoji-icon">🗺️</div>
+      <div class="vocab-en">tour</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">テ</div>
+      <div class="romaji">te</div>
+      <div class="vocab">テレビ</div>
+      <div class="vocab-romaji">terebi</div>
+      <div class="emoji-icon">📺</div>
+      <div class="vocab-en">TV</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ト</div>
+      <div class="romaji">to</div>
+      <div class="vocab">トマト</div>
+      <div class="vocab-romaji">tomato</div>
+      <div class="emoji-icon">🍅</div>
+      <div class="vocab-en">tomato</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- N ROW -->
+<div class="row">
+  <div class="row-label n-label">N</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ナ</div>
+      <div class="romaji">na</div>
+      <div class="vocab">ナイフ</div>
+      <div class="vocab-romaji">naifu</div>
+      <div class="emoji-icon">🔪</div>
+      <div class="vocab-en">knife</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ニ</div>
+      <div class="romaji">ni</div>
+      <div class="vocab">ニュース</div>
+      <div class="vocab-romaji">nyūsu</div>
+      <div class="emoji-icon">📰</div>
+      <div class="vocab-en">news</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ヌ</div>
+      <div class="romaji">nu</div>
+      <div class="vocab">ヌードル</div>
+      <div class="vocab-romaji">nūdoru</div>
+      <div class="emoji-icon">🍜</div>
+      <div class="vocab-en">noodle</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ネ</div>
+      <div class="romaji">ne</div>
+      <div class="vocab">ネクタイ</div>
+      <div class="vocab-romaji">nekutai</div>
+      <div class="emoji-icon">👔</div>
+      <div class="vocab-en">necktie</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ノ</div>
+      <div class="romaji">no</div>
+      <div class="vocab">ノート</div>
+      <div class="vocab-romaji">nōto</div>
+      <div class="emoji-icon">📓</div>
+      <div class="vocab-en">notebook</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- H ROW -->
+<div class="row">
+  <div class="row-label h-label">H</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ハ</div>
+      <div class="romaji">ha</div>
+      <div class="vocab">ハンバーガー</div>
+      <div class="vocab-romaji">hanbāgā</div>
+      <div class="emoji-icon">🍔</div>
+      <div class="vocab-en">hamburger</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ヒ</div>
+      <div class="romaji">hi</div>
+      <div class="vocab">ヒーロー</div>
+      <div class="vocab-romaji">hīrō</div>
+      <div class="emoji-icon">🦸</div>
+      <div class="vocab-en">hero</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">フ</div>
+      <div class="romaji">fu</div>
+      <div class="vocab">フルーツ</div>
+      <div class="vocab-romaji">furūtsu</div>
+      <div class="emoji-icon">🍎</div>
+      <div class="vocab-en">fruit</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ヘ</div>
+      <div class="romaji">he</div>
+      <div class="vocab">ヘルメット</div>
+      <div class="vocab-romaji">herumetto</div>
+      <div class="emoji-icon">⛑️</div>
+      <div class="vocab-en">helmet</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ホ</div>
+      <div class="romaji">ho</div>
+      <div class="vocab">ホテル</div>
+      <div class="vocab-romaji">hoteru</div>
+      <div class="emoji-icon">🏨</div>
+      <div class="vocab-en">hotel</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- M ROW -->
+<div class="row">
+  <div class="row-label m-label">M</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">マ</div>
+      <div class="romaji">ma</div>
+      <div class="vocab">マンゴー</div>
+      <div class="vocab-romaji">mangō</div>
+      <div class="emoji-icon">🥭</div>
+      <div class="vocab-en">mango</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ミ</div>
+      <div class="romaji">mi</div>
+      <div class="vocab">ミルク</div>
+      <div class="vocab-romaji">miruku</div>
+      <div class="emoji-icon">🥛</div>
+      <div class="vocab-en">milk</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ム</div>
+      <div class="romaji">mu</div>
+      <div class="vocab">ムービー</div>
+      <div class="vocab-romaji">mūbī</div>
+      <div class="emoji-icon">🎬</div>
+      <div class="vocab-en">movie</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">メ</div>
+      <div class="romaji">me</div>
+      <div class="vocab">メニュー</div>
+      <div class="vocab-romaji">menyū</div>
+      <div class="emoji-icon">📋</div>
+      <div class="vocab-en">menu</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">モ</div>
+      <div class="romaji">mo</div>
+      <div class="vocab">モデル</div>
+      <div class="vocab-romaji">moderu</div>
+      <div class="emoji-icon">👗</div>
+      <div class="vocab-en">model</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Y ROW -->
+<div class="row">
+  <div class="row-label y-label">Y</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ヤ</div>
+      <div class="romaji">ya</div>
+      <div class="vocab">ヤシ</div>
+      <div class="vocab-romaji">yashi</div>
+      <div class="emoji-icon">🌴</div>
+      <div class="vocab-en">palm tree</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ユ</div>
+      <div class="romaji">yu</div>
+      <div class="vocab">ユニフォーム</div>
+      <div class="vocab-romaji">yunifōmu</div>
+      <div class="emoji-icon">🎽</div>
+      <div class="vocab-en">uniform</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ヨ</div>
+      <div class="romaji">yo</div>
+      <div class="vocab">ヨーグルト</div>
+      <div class="vocab-romaji">yōguruto</div>
+      <div class="emoji-icon">🫙</div>
+      <div class="vocab-en">yogurt</div>
+    </div>
+
+    <div class="cell-empty"></div>
+    <div class="cell-empty"></div>
+
+  </div>
+</div>
+
+<!-- R ROW -->
+<div class="row">
+  <div class="row-label r-label">R</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ラ</div>
+      <div class="romaji">ra</div>
+      <div class="vocab">ラジオ</div>
+      <div class="vocab-romaji">rajio</div>
+      <div class="emoji-icon">📻</div>
+      <div class="vocab-en">radio</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">リ</div>
+      <div class="romaji">ri</div>
+      <div class="vocab">リュック</div>
+      <div class="vocab-romaji">ryukku</div>
+      <div class="emoji-icon">🎒</div>
+      <div class="vocab-en">backpack</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ル</div>
+      <div class="romaji">ru</div>
+      <div class="vocab">ルーム</div>
+      <div class="vocab-romaji">rūmu</div>
+      <div class="emoji-icon">🏠</div>
+      <div class="vocab-en">room</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">レ</div>
+      <div class="romaji">re</div>
+      <div class="vocab">レストラン</div>
+      <div class="vocab-romaji">resutoran</div>
+      <div class="emoji-icon">🍽️</div>
+      <div class="vocab-en">restaurant</div>
+    </div>
+
+    <div class="cell">
+      <div class="kana">ロ</div>
+      <div class="romaji">ro</div>
+      <div class="vocab">ロケット</div>
+      <div class="vocab-romaji">roketto</div>
+      <div class="emoji-icon">🚀</div>
+      <div class="vocab-en">rocket</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- W ROW + N -->
+<div class="row">
+  <div class="row-label w-label">W·N</div>
+  <div class="cells">
+
+    <div class="cell">
+      <div class="kana">ワ</div>
+      <div class="romaji">wa</div>
+      <div class="vocab">ワイン</div>
+      <div class="vocab-romaji">wain</div>
+      <div class="emoji-icon">🍷</div>
+      <div class="vocab-en">wine</div>
+    </div>
+
+    <div class="cell" style="justify-content: flex-start; padding-top: 1.5vw;">
+      <div class="kana">ヲ</div>
+      <div class="romaji">wo</div>
+    </div>
+
+    <div class="cell" style="justify-content: flex-start; padding-top: 1.5vw;">
+      <div class="kana">ン</div>
+      <div class="romaji">n</div>
+    </div>
+
+    <div class="cell-empty"></div>
+    <div class="cell-empty"></div>
+
+  </div>
+</div>
+
+</div><!-- end .grid -->
+</div><!-- end #tab-katakana -->
+</div><!-- end .tab-panels -->
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      var names = { hiragana: 'Hiragana Sounds', katakana: 'Katakana Sounds' };
+      document.getElementById('page-title').textContent = names[btn.dataset.tab];
+    });
+  });
+
+  var toggle = document.getElementById('desc-toggle');
+  var body = document.getElementById('desc-body');
+  toggle.addEventListener('click', function() {
+    var open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !open);
+    document.getElementById('desc-indicator').textContent = open ? '[+]' : '[−]';
+    body.style.display = open ? 'none' : '';
+  });
+
+  document.querySelectorAll('.cell').forEach(function(cell) {
+    cell.addEventListener('mousemove', function(e) {
+      var rect = cell.getBoundingClientRect();
+      var dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      var dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      cell.style.transform = 'perspective(500px) scale(1.1) rotateX(' + (-dy * 10) + 'deg) rotateY(' + (dx * 10) + 'deg)';
+      cell.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width  * 100).toFixed(1) + '%');
+      cell.style.setProperty('--my', ((e.clientY - rect.top)  / rect.height * 100).toFixed(1) + '%');
+    });
+    cell.addEventListener('mouseleave', function() {
+      cell.style.transform = '';
+    });
+  });
+</script>
+
+</body>
+</html>
