@@ -1,0 +1,192 @@
+// ============================================================
+// Shared tile grid styles — import this for any kana/card page
+// ============================================================
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vw;
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5vw;
+}
+
+.row-label {
+  width: 7vw;
+  min-width: 7vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: clamp(8px, 2vw, 16px);
+  letter-spacing: 0.3px;
+  color: #fff;
+  border-radius: 1.5vw;
+  text-transform: uppercase;
+  background: var(--c);
+}
+
+// --gap drives cell sizing at every breakpoint — change one number, everything stays in sync
+.cells {
+  --gap: 1.5vw;
+  display: flex;
+  gap: var(--gap);
+  flex: 1;
+}
+
+// Stack two .cells rows (hiragana + katakana) vertically inside one .row
+.cells-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap, 1.5vw);
+  flex: 1;
+}
+
+// Single .cell declaration
+.cell {
+  flex: 1;
+  border-radius: 2.5vw;
+  padding: 1.5vw 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  position: relative;
+  max-width: calc((100% - 4 * var(--gap)) / 5);
+  background: color-mix(in srgb, var(--c), black 35%);
+  color: color-mix(in srgb, var(--c), white 50%);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+}
+.cell:hover { z-index: 1; }
+.cell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.22) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.cell:hover::after { opacity: 1; }
+
+.cell .kana {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 900;
+  font-size: clamp(18px, 6vw, 52px);
+  line-height: 1;
+  margin-bottom: 0.3vw;
+}
+.cell .romaji {
+  font-size: clamp(8px, 2.2vw, 18px);
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: lowercase;
+  opacity: 0.85;
+  margin-bottom: 0.5vw;
+}
+.cell .vocab {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: clamp(7px, 1.9vw, 16px);
+  font-weight: 700;
+  margin-bottom: 0.1vw;
+  opacity: 0.9;
+  text-align: center;
+}
+.cell .vocab-romaji {
+  font-size: clamp(6px, 1.5vw, 13px);
+  font-weight: 600;
+  opacity: 0.75;
+  text-align: center;
+  margin-bottom: 0.4vw;
+  font-style: italic;
+}
+.cell svg {
+  width: clamp(28px, 7.5vw, 64px);
+  height: clamp(28px, 7.5vw, 64px);
+  display: block;
+}
+.cell .emoji-icon {
+  font-size: clamp(22px, 6vw, 52px);
+  line-height: 1;
+  display: block;
+  text-align: center;
+}
+.cell .vocab-en {
+  font-size: clamp(6px, 1.4vw, 12px);
+  font-weight: 700;
+  opacity: 0.7;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 0.2vw;
+}
+
+// Empty spacer cells keep short rows (Y, W) aligned with 5-cell rows
+.cell-empty {
+  flex: 0 0 calc((100% - 4 * var(--gap)) / 5);
+  background: transparent;
+}
+
+// Row color themes — one --c per row, cell colors computed from it
+.row:has(.vowel-label) { --c: #e07ca0; }
+.row:has(.k-label)     { --c: #e08c3a; }
+.row:has(.s-label)     { --c: #d4a020; }
+.row:has(.t-label)     { --c: #5aaa5a; }
+.row:has(.n-label)     { --c: #3a9ec0; }
+.row:has(.h-label)     { --c: #7070e0; }
+.row:has(.m-label)     { --c: #c060c0; }
+.row:has(.y-label)     { --c: #c08030; }
+.row:has(.r-label)     { --c: #40a888; }
+.row:has(.w-label)     { --c: #888; }
+.row:has(.g-label)     { --c: #e08c3a; }
+.row:has(.z-label)     { --c: #d4a020; }
+.row:has(.d-label)     { --c: #5aaa5a; }
+.row:has(.b-label)     { --c: #7070e0; }
+.row:has(.p-label)     { --c: #d06090; }
+
+// Wide screens: 2 rows side by side
+@media (min-width: 768px) {
+  .grid { flex-direction: row; flex-wrap: wrap; }
+  .row { flex: 0 0 calc(50% - 0.75vw); }
+  .row-label { width: 5vw; min-width: 5vw; font-size: clamp(8px, 1.2vw, 14px); border-radius: 1vw; }
+  .cells { --gap: 1vw; }
+  .cells-stack { gap: 1vw; }
+  .cell { border-radius: 1.5vw; padding: 1vw 0.5vw; }
+  .cell .kana { font-size: clamp(18px, 3.2vw, 44px); }
+  .cell .romaji { font-size: clamp(8px, 1.2vw, 16px); }
+  .cell .vocab { font-size: clamp(7px, 1vw, 14px); }
+  .cell .vocab-romaji { font-size: clamp(6px, 0.8vw, 12px); }
+  .cell svg { width: clamp(28px, 4vw, 56px); height: clamp(28px, 4vw, 56px); }
+  .cell .emoji-icon { font-size: clamp(22px, 3.2vw, 44px); }
+  .cell .vocab-en { font-size: clamp(6px, 0.7vw, 11px); }
+}
+
+// Very wide screens: 3 rows side by side
+@media (min-width: 1200px) {
+  .row { flex: 0 0 calc(33.333% - 1vw); }
+  .row-label { width: 3.5vw; min-width: 3.5vw; font-size: clamp(8px, 0.9vw, 14px); }
+  .cells { --gap: 0.8vw; }
+  .cells-stack { gap: 0.8vw; }
+  .cell { border-radius: 1vw; padding: 0.8vw 0.4vw; }
+  .cell .kana { font-size: clamp(16px, 2.2vw, 40px); }
+  .cell .romaji { font-size: clamp(7px, 0.9vw, 14px); }
+  .cell .vocab { font-size: clamp(6px, 0.7vw, 12px); }
+  .cell .vocab-romaji { font-size: clamp(5px, 0.6vw, 10px); }
+  .cell svg { width: clamp(24px, 2.8vw, 48px); height: clamp(24px, 2.8vw, 48px); }
+  .cell .emoji-icon { font-size: clamp(20px, 2.2vw, 40px); }
+  .cell .vocab-en { font-size: clamp(5px, 0.55vw, 10px); }
+}
+
+// Light mode: recompute cell colors from light palette
+@media (prefers-color-scheme: light) {
+  .cell {
+    background: color-mix(in srgb, var(--c), white 70%);
+    color: color-mix(in srgb, var(--c), black 30%);
+  }
+}
