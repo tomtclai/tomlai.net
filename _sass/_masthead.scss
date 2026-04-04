@@ -6,10 +6,17 @@
   padding-top: var(--spacer);
   padding-bottom: var(--spacer);
   margin-bottom: var(--spacer-3);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .masthead-title {
-  margin-bottom: 0;
+  margin-bottom: var(--spacer);
+
+  &::before {
+    content: "> ";
+    color: var(--accent-cyan);
+    font-weight: 400;
+  }
 
   a {
     color: inherit;
@@ -24,7 +31,22 @@
 
 // Navbar styles
 .nav {
-  float: right;
   line-height: 1.25rem;
   word-spacing: 1rem;
+
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+
+    &::before {
+      content: "# ";
+      color: inherit;
+    }
+
+    &:hover,
+    &:focus {
+      color: var(--text-primary);
+    }
+  }
 }
+

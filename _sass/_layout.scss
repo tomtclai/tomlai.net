@@ -2,8 +2,14 @@
 //
 // Styles for managing the structural hierarchy of the site.
 
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+}
+
 .container {
-  max-width: 45rem;
+  max-width: 52rem;
   padding-left: var(--spacer-2);
   padding-right: var(--spacer-2);
   margin-left:  auto;
@@ -13,4 +19,15 @@
 footer {
   margin-top: var(--spacer-3);
   margin-bottom: var(--spacer-3);
+  color: var(--text-muted);
+
+  &::before {
+    content: "/* ";
+    color: var(--text-dim);
+  }
+
+  &::after {
+    content: " */";
+    color: var(--text-dim);
+  }
 }

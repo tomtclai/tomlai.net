@@ -1,4 +1,5 @@
 :root {
+  // Legacy gray scale (kept for any fallback references)
   --gray-000: #f8f9fa;
   --gray-100: #f1f3f5;
   --gray-200: #e9ecef;
@@ -9,76 +10,93 @@
   --gray-700: #495057;
   --gray-800: #343a40;
   --gray-900: #212529;
-  --dark-poole-001: hsl(200, 3%, 12%);
-  --dark-poole-002: hsl(0, 0%, 85%);
-  --dark-poole-link-color: rgba(255, 255, 255, 0.75);
-  --dark-poole-link-hover: #fff;
 
-  --red: #fa5252;
-  --pink: #e64980;
-  --grape: #be4bdb;
+  // Semantic color tokens
+  --bg-base:     hsl(220, 13%, 10%);
+  --bg-surface:  hsl(220, 13%, 14%);
+  --bg-elevated: hsl(220, 13%, 18%);
+
+  --text-primary: hsl(210, 15%, 84%);
+  --text-muted:   hsl(210, 10%, 55%);
+  --text-dim:     hsl(210, 8%, 38%);
+
+  --accent-cyan:       hsl(186, 72%, 55%);
+  --accent-cyan-hover: hsl(186, 72%, 70%);
+  --accent-amber:      hsl(42, 90%, 58%);
+  --accent-green:      hsl(145, 60%, 48%);
+  --accent-red:        hsl(0, 72%, 60%);
+
+  --border: hsla(210, 15%, 84%, 0.1);
+
+  // Accent colors (kept for swatches / syntax)
+  --red:    #fa5252;
+  --pink:   #e64980;
+  --grape:  #be4bdb;
   --purple: #7950f2;
   --indigo: #4c6ef5;
-  --blue: #228be6;
-  --cyan: #15aabf;
-  --teal: #12b886;
-  --green: #40c057;
+  --blue:   #228be6;
+  --cyan:   #15aabf;
+  --teal:   #12b886;
+  --green:  #40c057;
   --yellow: #fab005;
   --orange: #fd7e14;
 
-  --blue-300: #74c0fc;
-  --blue-400: #4dabf7;
+  --blue-300:  #74c0fc;
+  --blue-400:  #4dabf7;
   --yellow-100: #fff3bf;
 
-  --body-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --body-font-size: 20px;
-  --body-line-height: 1.5;
-  --body-color: var(--gray-700);
-  --body-bg: #fff;
+  // Typography
+  --body-font: ui-monospace, 'Cascadia Code', 'JetBrains Mono', 'Fira Code',
+    'Source Code Pro', Menlo, Consolas, 'Courier New', monospace;
+  --body-font-size: clamp(15px, 1.4vw + 0.5rem, 18px);
+  --body-line-height: 1.7;
+  --body-color: var(--text-primary);
+  --body-bg: var(--bg-base);
 
-  --link-color: var(--blue);
-  --link-hover-color: #1c7ed6;
+  --link-color:       var(--accent-cyan);
+  --link-hover-color: var(--accent-cyan-hover);
 
-  --heading-color: var(--gray-900);
+  --heading-color: var(--text-primary);
 
-  --border-color: var(--gray-300);
-  --border-radius: 0.25rem;
+  --border-color:  var(--border);
+  --border-radius: 0;
 
-  --code-font: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    "Courier New", monospace;
-  --code-color: var(--grape);
-  --code-bg: var(--gray-000);
+  --code-font: var(--body-font);
+  --code-color: var(--accent-amber);
+  --code-bg: var(--bg-surface);
 
-  --spacer: 1rem;
+  --spacer:   1rem;
   --spacer-2: calc(var(--spacer) * 1.5);
   --spacer-3: calc(var(--spacer) * 3);
 }
 
-@media (prefers-color-scheme: dark) {
+// Light theme
+@media (prefers-color-scheme: light) {
   :root {
-    --body-color: var(--gray-300);
-    --body-bg: var(--gray-800);
+    --bg-base:     hsl(45, 20%, 96%);
+    --bg-surface:  hsl(45, 15%, 91%);
+    --bg-elevated: hsl(45, 10%, 86%);
 
-    --heading-color: #fff;
+    --text-primary: hsl(220, 20%, 12%);
+    --text-muted:   hsl(220, 10%, 42%);
+    --text-dim:     hsl(220, 8%, 62%);
 
-    --link-color: var(--blue-300);
-    --link-hover-color: var(--blue-400);
+    --accent-cyan:       hsl(186, 60%, 35%);
+    --accent-cyan-hover: hsl(186, 60%, 25%);
+    --accent-amber:      hsl(42, 90%, 38%);
 
-    --border-color: rgba(255, 255, 255, 0.15);
-
-    --code-bg: var(--gray-900);
+    --border: hsla(220, 20%, 12%, 0.12);
   }
 }
 
-// Dark Poole theme
+// Dark Poole theme (applied via data-theme attribute on <html>)
 [data-theme="dark-poole"] {
-  --body-color: var(--dark-poole-002);
-  --body-bg: var(--dark-poole-001);
-  --heading-color: var(--dark-poole-002);
-  --link-color: var(--dark-poole-link-color);
-  --link-hover-color: var(--dark-poole-link-hover);
-  --border-color: rgba(255, 255, 255, 0.15);
-  --code-bg: var(--gray-900);
+  --body-color:       var(--text-primary);
+  --body-bg:          var(--bg-base);
+  --heading-color:    var(--text-primary);
+  --link-color:       var(--accent-cyan);
+  --link-hover-color: var(--accent-cyan-hover);
+  --border-color:     var(--border);
+  --code-bg:          var(--bg-surface);
+  --code-color:       var(--accent-amber);
 }

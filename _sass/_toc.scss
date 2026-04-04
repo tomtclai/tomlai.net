@@ -3,13 +3,16 @@
 #markdown-toc {
   padding: var(--spacer-2) var(--spacer-3);
   margin-bottom: var(--spacer-2);
-  border: solid var(--border-color);
-  border-width: 1px 0;
+  background-color: var(--bg-surface);
+  border-left: 3px solid var(--accent-cyan);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 
   &::before {
     display: block;
     margin-left: calc(var(--spacer-3) * -1);
-    content: "Contents";
+    content: "// contents";
+    color: var(--text-dim);
     font-size: 85%;
     font-weight: 500;
   }

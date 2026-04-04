@@ -4,28 +4,47 @@
 
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.25;
   color: var(--heading-color);
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  letter-spacing: -0.02em;
 }
 
 h2 {
   margin-top: 1rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 3.5vw, 1.6rem);
 }
 
 h3 {
   margin-top: 1.5rem;
-  font-size: 1.25rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
 }
 
 h4, h5, h6 {
   margin-top: 1rem;
   font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Scoped heading decorators — only inside post/page content, not in masthead
+.post,
+.page {
+  h2::before {
+    content: "## ";
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+
+  h3::before {
+    content: "### ";
+    color: var(--text-dim);
+    font-weight: 400;
+  }
 }
 
 p {
@@ -50,13 +69,21 @@ hr {
   position: relative;
   margin: var(--spacer-2) 0;
   border: 0;
-  border-top: 1px solid var(--border-color);
+  text-align: center;
+
+  &::after {
+    content: "// --- //";
+    color: var(--text-dim);
+    font-size: 0.85em;
+    letter-spacing: 0.2em;
+  }
 }
 
 abbr {
+  font-family: inherit;
   font-size: 85%;
   font-weight: bold;
-  color: var(--gray-600);
+  color: var(--text-muted);
   text-transform: uppercase;
 
   &[title] {
@@ -68,15 +95,14 @@ abbr {
 blockquote {
   padding: .5rem 1rem;
   margin: .8rem 0;
-  color: var(--gray-500);
-  border-left: .25rem solid var(--border-color);
+  color: var(--text-muted);
+  border-left: 3px solid var(--accent-cyan);
 
   p:last-child {
     margin-bottom: 0;
   }
 
   @media (min-width: 30em) {
-    padding-right: 5rem;
     padding-left: 1.25rem;
   }
 }
@@ -110,6 +136,6 @@ a[href^="#fnref:"] {
 // Extend paragraphs with `.lead` for larger introductory text.
 
 .lead {
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-style: italic;
 }

@@ -9,7 +9,10 @@ pre {
 }
 
 code {
-  font-size: 85%;
+  font-size: 0.95em;
+  color: var(--code-color);
+  background-color: var(--code-bg);
+  padding: 0.1em 0.3em;
 }
 
 pre {
@@ -17,13 +20,35 @@ pre {
   margin-top: 0;
   margin-bottom: var(--spacer-3);
   overflow: auto;
+
+  // Reset inline code styling inside pre blocks
+  code {
+    color: inherit;
+    background-color: transparent;
+    padding: 0;
+    font-size: 1em;
+  }
 }
 
 .highlight {
+  position: relative;
   padding: var(--spacer);
+  padding-top: calc(var(--spacer) * 2.25);
   margin-bottom: var(--spacer);
   background-color: var(--code-bg);
   border-radius: var(--border-radius);
+
+  // Terminal window dots decoration
+  &::before {
+    content: "\00B7  \00B7  \00B7";
+    position: absolute;
+    top: var(--spacer);
+    left: var(--spacer);
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    font-size: 1.1em;
+    line-height: 1;
+  }
 
   pre {
     margin-bottom: 0;
@@ -32,6 +57,11 @@ pre {
   // Triple backticks (code fencing) doubles the .highlight elements
   .highlight {
     padding: 0;
+    padding-top: 0;
+
+    &::before {
+      display: none;
+    }
   }
 }
 
