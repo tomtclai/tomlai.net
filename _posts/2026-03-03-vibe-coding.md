@@ -6,4 +6,4 @@ categories: [japanese]
 tags: [japanese, vibe-coding]
 ---
 
-i vibe coded some japanese sounds because im trying to learn japanese, the idea came to me in a reel, someone said we need vocabs to remember those hiragana / katakana sounds... anyway [check it out](/japanese)
+i vibe coded a page to memorize japanese sounds because im trying to learn japanese, the idea came to me in a reel, someone said we need vocabs to remember those hiragana / katakana sounds... anyway [check it out](/japanese)
