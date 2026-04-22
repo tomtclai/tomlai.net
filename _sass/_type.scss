@@ -31,22 +31,6 @@ h4, h5, h6 {
   letter-spacing: 0.05em;
 }
 
-// Scoped heading decorators — only inside post/page content, not in masthead
-.post,
-.page {
-  h2::before {
-    content: "## ";
-    color: var(--text-dim);
-    font-weight: 400;
-  }
-
-  h3::before {
-    content: "### ";
-    color: var(--text-dim);
-    font-weight: 400;
-  }
-}
-
 p {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -66,17 +50,9 @@ dd {
 }
 
 hr {
-  position: relative;
   margin: var(--spacer-2) 0;
   border: 0;
-  text-align: center;
-
-  &::after {
-    content: "// --- //";
-    color: var(--text-dim);
-    font-size: 0.85em;
-    letter-spacing: 0.2em;
-  }
+  border-top: 1px solid var(--border-color);
 }
 
 abbr {

@@ -1,31 +1,40 @@
 export class TileGame {
     constructor(containerId) {
-        // Game constants
+        // Game constants (retained for getGridPosition math / tests)
         this.GRID_SIZE = 3;
         this.CELL_SIZE = 80;
         this.CELL_PADDING = 10;
         this.GRID_PADDING = 30;
-        
+
         // Create container elements
         this.container = document.getElementById(containerId);
         this.container.style.display = 'none'; // Hide initially
         this.container.innerHTML = `
-            <div class="game-container">
-                <button class="close-button">×</button>
-                <h2>Tile Puzzle</h2>
-                <div class="instructions">
-                    <p>🎯 Goal: Make all tiles the same color (either all light or all dark)</p>
-                    <p>🎮 Click any tile to toggle its color and its adjacent tiles</p>
-                    <p>🔄 Adjacent means the tiles directly above, below, left, and right</p>
-                    <p>⭐ Try to solve the puzzle in as few moves as possible!</p>
+            <div class="game-page">
+                <div class="game-head">
+                    <h1>tile puzzle</h1>
+                    <div class="rules">
+                        <div class="rule"><span class="k">goal</span> make all tiles match</div>
+                        <div class="rule"><span class="k">rule</span> click a tile — it and its neighbors flip</div>
+                        <div class="rule"><span class="k">tip</span> fewer moves is better</div>
+                    </div>
+                    <button class="close-button" aria-label="close">×</button>
                 </div>
-                <canvas id="gameCanvas" width="300" height="300"></canvas>
+
+                <div class="game-grid-wrap">
+                    <div class="game-grid" id="gameGrid"></div>
+                    <div class="game-readout">
+                        <div class="ro-row"><span class="lbl">moves</span><span class="val" id="scoreDisplay">00</span></div>
+                        <div class="ro-row"><span class="lbl">best</span><span class="val hi" id="bestScoreDisplay">—</span></div>
+                        <div class="ro-row"><span class="lbl">status</span><span class="val dim" id="statusDisplay">in progress</span></div>
+                        <hr />
+                        <button class="btn-mono" id="newGameBtn">New game</button>
+                    </div>
+                </div>
+
                 <div id="message"></div>
-                <div class="stats">
-                    <div class="score">Moves: <span id="scoreDisplay">0</span></div>
-                    <div class="score">Best: <span id="bestScoreDisplay">-</span></div>
-                </div>
-                <button class="button" id="newGameBtn">New Game</button>
+
+                <canvas id="gameCanvas" style="display:none" width="1" height="1"></canvas>
             </div>
         `;
 
@@ -37,94 +46,44 @@ export class TileGame {
             document.head.appendChild(script);
         }
 
-        // Add styles
+        // Add styles — Direction A: Terminal Journal
         const style = document.createElement('style');
         style.textContent = `
-            .game-container {
-                background-color: #2a2a2a;
-                padding: 2rem;
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-                text-align: center;
-                margin: 2rem 0;
-                position: relative;
-            }
-            .close-button {
-                position: absolute;
-                top: 1rem;
-                right: 1rem;
-                background: none;
-                border: none;
-                color: #666;
-                font-size: 2rem;
-                cursor: pointer;
-                padding: 0;
-                line-height: 1;
-                transition: color 0.2s ease;
-            }
-            .close-button:hover {
-                color: #fff;
-            }
-            .game-container h2 {
-                color: #ffffff;
-                margin-top: 0;
-            }
-            #gameCanvas {
-                background-color: #1a1a1a;
-                margin: 20px auto;
-                display: block;
-                border-radius: 4px;
-                cursor: pointer;
-            }
-            .instructions {
-                background-color: #333333;
-                padding: 1rem;
-                border-radius: 4px;
-                margin: 1rem 0;
-                text-align: left;
-                font-size: 0.9em;
-                line-height: 1.4;
-            }
-            .stats {
-                display: flex;
-                justify-content: center;
-                gap: 2rem;
-                margin: 1rem 0;
-            }
-            .score {
-                font-size: 1.2em;
-                margin: 1rem 0;
-            }
-            #message {
-                color: #74c0fc;
-                font-weight: bold;
-                height: 1.5em;
-                margin: 1rem 0;
-            }
-            .button {
-                background-color: #74c0fc;
-                color: #1a1a1a;
-                border: none;
-                padding: 0.5rem 1rem;
-                border-radius: 4px;
-                cursor: pointer;
-                font-weight: bold;
-                transition: background-color 0.2s ease;
-                margin: 0.5rem;
-            }
-            .button:hover {
-                background-color: #4dabf7;
-            }
+            #game .game-page { padding: 36px 0 48px; max-width: 820px; margin: 0 auto; position: relative; }
+            #game .game-head { margin-bottom: 32px; position: relative; }
+            #game .game-head h1 { font-family: var(--body-font); font-size: 34px; font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--text-primary); }
+            #game .game-head .rules { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--text-muted); }
+            #game .game-head .rule .k { display: inline-block; width: 56px; color: var(--text-dim); text-transform: uppercase; font-size: 10px; letter-spacing: 0.14em; margin-right: 8px; }
+            #game .close-button { position: absolute; top: 1rem; right: 1rem; background: transparent; border: none; color: var(--text-dim); font-size: 28px; cursor: pointer; line-height: 1; padding: 0; transition: color .15s; }
+            #game .close-button:hover { color: var(--text-primary); }
+            #game .game-grid-wrap { display: grid; grid-template-columns: auto 1fr; gap: 40px; padding: 28px; border: 1px solid var(--border-color); background: var(--bg-surface); margin-bottom: 28px; align-items: start; }
+            #game .game-grid { display: grid; grid-template-columns: repeat(3, 96px); grid-template-rows: repeat(3, 96px); gap: 8px; }
+            #game .gt { width: 96px; height: 96px; border: 1px solid var(--border-color); background: var(--bg-elevated); cursor: pointer; transition: background .12s, transform .1s; padding: 0; }
+            #game .gt:hover { border-color: var(--accent-cyan); }
+            #game .gt:active { transform: scale(0.96); }
+            #game .gt.on { background: var(--accent-cyan); border-color: var(--accent-cyan); }
+            #game .game-readout { display: flex; flex-direction: column; gap: 8px; font-size: 13px; min-width: 200px; font-family: var(--body-font); }
+            #game .game-readout .ro-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); }
+            #game .game-readout .ro-row .lbl { color: var(--text-dim); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; }
+            #game .game-readout .ro-row .val { font-variant-numeric: tabular-nums; color: var(--text-primary); font-weight: 700; }
+            #game .game-readout .ro-row .val.hi { color: var(--accent-cyan); }
+            #game .game-readout .ro-row .val.dim { color: var(--text-muted); font-weight: 400; }
+            #game .game-readout hr { border: 0; border-top: 1px solid var(--border-color); margin: 8px 0 4px; }
+            #game .btn-mono { background: var(--accent-cyan); color: var(--bg-base); border: none; padding: 10px 14px; font-family: var(--body-font); font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; margin-bottom: 2px; transition: opacity .15s; }
+            #game .btn-mono:hover { opacity: 0.85; }
+            #game #message { color: var(--accent-cyan); font-weight: bold; min-height: 1.5em; margin: 1rem 0; font-family: var(--body-font); }
         `;
         document.head.appendChild(style);
 
         // Get elements
         this.canvas = document.getElementById('gameCanvas');
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.getContext ? this.canvas.getContext('2d') : null;
         this.messageEl = document.getElementById('message');
         this.scoreDisplay = document.getElementById('scoreDisplay');
         this.bestScoreDisplay = document.getElementById('bestScoreDisplay');
+        this.statusDisplay = document.getElementById('statusDisplay');
         this.newGameBtn = document.getElementById('newGameBtn');
+        this.gridEl = document.getElementById('gameGrid');
         this.closeBtn = this.container.querySelector('.close-button');
 
         // Initialize game state
@@ -136,7 +95,16 @@ export class TileGame {
         };
 
         // Set up event listeners
-        this.canvas.addEventListener('click', (event) => this.handleClick(event));
+        // Delegated click on the DOM grid
+        this.gridEl.addEventListener('click', (event) => {
+            const btn = event.target.closest('.gt');
+            if (!btn || !this.gridEl.contains(btn)) return;
+            const row = parseInt(btn.dataset.row, 10);
+            const col = parseInt(btn.dataset.col, 10);
+            if (!Number.isNaN(row) && !Number.isNaN(col)) {
+                this.toggleTiles(row, col);
+            }
+        });
         this.newGameBtn.addEventListener('click', () => this.newGame());
         this.closeBtn.addEventListener('click', () => {
             this.container.style.display = 'none';
@@ -145,47 +113,79 @@ export class TileGame {
 
         // Initialize the game
         this.initCanvas();
+        this.buildGridButtons();
+        this.renderGrid();
         this.updateBestScore();
+        this.updateStatus();
     }
 
     updateBestScore() {
         if (this.gameState.bestScore === 0) {
-            this.bestScoreDisplay.textContent = '-';
+            this.bestScoreDisplay.textContent = '—';
         } else {
             this.bestScoreDisplay.textContent = this.gameState.bestScore;
         }
     }
 
-    initCanvas() {
-        const totalSize = (this.GRID_SIZE * this.CELL_SIZE) + 
-                         ((this.GRID_SIZE - 1) * this.CELL_PADDING) + 
-                         (this.GRID_PADDING * 2);
-        this.canvas.width = totalSize;
-        this.canvas.height = totalSize;
-        this.drawGrid();
+    updateStatus() {
+        if (!this.statusDisplay) return;
+        if (this.gameState.isGameOver) {
+            this.statusDisplay.textContent = 'solved!';
+            this.statusDisplay.classList.remove('dim');
+            this.statusDisplay.classList.add('hi');
+        } else {
+            this.statusDisplay.textContent = 'in progress';
+            this.statusDisplay.classList.add('dim');
+            this.statusDisplay.classList.remove('hi');
+        }
     }
 
-    drawGrid() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
+    initCanvas() {
+        // Retained so getGridPosition math matches the legacy canvas coordinate space.
+        const totalSize = (this.GRID_SIZE * this.CELL_SIZE) +
+                         ((this.GRID_SIZE - 1) * this.CELL_PADDING) +
+                         (this.GRID_PADDING * 2);
+        if (this.canvas) {
+            this.canvas.width = totalSize;
+            this.canvas.height = totalSize;
+        }
+    }
+
+    buildGridButtons() {
+        if (!this.gridEl) return;
+        this.gridEl.innerHTML = '';
         for (let row = 0; row < this.GRID_SIZE; row++) {
             for (let col = 0; col < this.GRID_SIZE; col++) {
-                const x = this.GRID_PADDING + (col * (this.CELL_SIZE + this.CELL_PADDING));
-                const y = this.GRID_PADDING + (row * (this.CELL_SIZE + this.CELL_PADDING));
-                
-                // Draw cell background
-                this.ctx.fillStyle = this.gameState.grid[row][col] ? '#74c0fc' : '#333333';
-                this.ctx.fillRect(x, y, this.CELL_SIZE, this.CELL_SIZE);
-                
-                // Draw cell border
-                this.ctx.strokeStyle = '#4a4a4a';
-                this.ctx.lineWidth = 2;
-                this.ctx.strokeRect(x, y, this.CELL_SIZE, this.CELL_SIZE);
+                const btn = document.createElement('button');
+                btn.className = 'gt';
+                btn.type = 'button';
+                btn.dataset.row = String(row);
+                btn.dataset.col = String(col);
+                btn.setAttribute('aria-label', `tile ${row},${col}`);
+                this.gridEl.appendChild(btn);
             }
         }
     }
 
+    renderGrid() {
+        if (!this.gridEl) return;
+        const buttons = this.gridEl.querySelectorAll('.gt');
+        buttons.forEach((btn) => {
+            const row = parseInt(btn.dataset.row, 10);
+            const col = parseInt(btn.dataset.col, 10);
+            const on = !!this.gameState.grid[row][col];
+            btn.classList.toggle('on', on);
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+    }
+
+    // Alias preserved for callers/tests that reference drawGrid().
+    drawGrid() {
+        this.renderGrid();
+    }
+
     celebrateWin() {
+        if (typeof confetti !== 'function') return;
         // Create multiple bursts of confetti
         const count = 200;
         const defaults = {
@@ -200,32 +200,11 @@ export class TileGame {
             });
         }
 
-        fire(0.25, {
-            spread: 26,
-            startVelocity: 55,
-        });
-
-        fire(0.2, {
-            spread: 60,
-        });
-
-        fire(0.35, {
-            spread: 100,
-            decay: 0.91,
-            scalar: 0.8
-        });
-
-        fire(0.1, {
-            spread: 120,
-            startVelocity: 25,
-            decay: 0.92,
-            scalar: 1.2
-        });
-
-        fire(0.1, {
-            spread: 120,
-            startVelocity: 45,
-        });
+        fire(0.25, { spread: 26, startVelocity: 55 });
+        fire(0.2, { spread: 60 });
+        fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+        fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+        fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
     toggleTiles(row, col) {
@@ -233,7 +212,7 @@ export class TileGame {
 
         // Toggle clicked tile
         this.gameState.grid[row][col] = !this.gameState.grid[row][col];
-        
+
         // Toggle adjacent tiles
         const adjacentTiles = [
             [row-1, col], // up
@@ -257,27 +236,28 @@ export class TileGame {
             this.gameState.isGameOver = true;
             const currentBestScore = parseInt(localStorage.getItem('bestScore')) || 0;
             const isNewBest = currentBestScore === 0 || this.gameState.moves < currentBestScore;
-            
+
             if (isNewBest) {
                 localStorage.setItem('bestScore', this.gameState.moves.toString());
                 this.gameState.bestScore = this.gameState.moves;
                 this.updateBestScore();
-                this.messageEl.textContent = `🎉 New Best Score: ${this.gameState.moves} moves!`;
+                this.messageEl.textContent = `New best score: ${this.gameState.moves} moves!`;
             } else {
-                this.messageEl.textContent = `🎈 You won in ${this.gameState.moves} moves!`;
+                this.messageEl.textContent = `You won in ${this.gameState.moves} moves!`;
             }
 
+            this.updateStatus();
             // Trigger confetti celebration
             this.celebrateWin();
         }
 
         // Update display
-        this.drawGrid();
+        this.renderGrid();
     }
 
     isWinState() {
         const firstTileState = this.gameState.grid[0][0];
-        return this.gameState.grid.every(row => 
+        return this.gameState.grid.every(row =>
             row.every(cell => cell === firstTileState)
         );
     }
@@ -286,10 +266,10 @@ export class TileGame {
         const rect = this.canvas.getBoundingClientRect();
         const clickX = x - rect.left - this.GRID_PADDING;
         const clickY = y - rect.top - this.GRID_PADDING;
-        
+
         const col = Math.floor(clickX / (this.CELL_SIZE + this.CELL_PADDING));
         const row = Math.floor(clickY / (this.CELL_SIZE + this.CELL_PADDING));
-        
+
         if (col >= 0 && col < this.GRID_SIZE && row >= 0 && row < this.GRID_SIZE &&
             clickX >= 0 && clickY >= 0) {
             return { row, col };
@@ -311,38 +291,38 @@ export class TileGame {
         this.gameState.isGameOver = false;
         this.scoreDisplay.textContent = '0';
         this.messageEl.textContent = '';
-        
+        this.updateStatus();
+
         // Make a few random moves to create a solvable puzzle
-        // Store original isGameOver check function
         const originalIsGameOver = this.isWinState;
         // Temporarily disable win state checking during puzzle creation
         this.isWinState = () => false;
-        
+
         for (let i = 0; i < 5; i++) {
             const row = Math.floor(Math.random() * this.GRID_SIZE);
             const col = Math.floor(Math.random() * this.GRID_SIZE);
             this.toggleTiles(row, col);
         }
-        
+
         // Restore original isGameOver check
         this.isWinState = originalIsGameOver;
-        
+
         // Reset moves counter after creating puzzle
         this.gameState.moves = 0;
         this.scoreDisplay.textContent = '0';
-        this.drawGrid();
+        this.renderGrid();
     }
 }
 
 // Initialize game and set up navigation handling
 document.addEventListener('DOMContentLoaded', () => {
     const game = new TileGame('game');
-    
+
     // Handle navigation clicks
     document.addEventListener('click', (event) => {
-        const isGameLink = event.target.matches('a[href="/#game"]') || 
+        const isGameLink = event.target.matches('a[href="/#game"]') ||
                           (event.target.closest('a') && event.target.closest('a').getAttribute('href') === '/#game');
-        
+
         if (isGameLink) {
             event.preventDefault();
             // Toggle game container visibility
@@ -376,4 +356,4 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('game').style.display = 'block';
         document.getElementById('game').scrollIntoView({ behavior: 'smooth' });
     }
-}); 
+});

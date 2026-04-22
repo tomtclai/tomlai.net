@@ -2,51 +2,50 @@
 //
 // Super small header above the content for site name and short description.
 
-.masthead {
-  padding-top: var(--spacer);
-  padding-bottom: var(--spacer);
-  margin-bottom: var(--spacer-3);
+.mast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0;
   border-bottom: 1px solid var(--border-color);
+  gap: 24px;
 }
 
-.masthead-title {
-  margin-bottom: var(--spacer);
+.mast-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  text-decoration: none;
 
-  &::before {
-    content: "> ";
+  .dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-cyan) 25%, transparent);
+  }
+}
+
+.mast nav {
+  display: flex;
+  gap: 18px;
+}
+
+.mast nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  &.active {
     color: var(--accent-cyan);
-    font-weight: 400;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  small {
-    font-weight: 400;
-    opacity: 0.5;
   }
 }
-
-// Navbar styles
-.nav {
-  line-height: 1.25rem;
-  word-spacing: 1rem;
-
-  a {
-    color: var(--text-muted);
-    text-decoration: none;
-
-    &::before {
-      content: "# ";
-      color: inherit;
-    }
-
-    &:hover,
-    &:focus {
-      color: var(--text-primary);
-    }
-  }
-}
-

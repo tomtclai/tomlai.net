@@ -5,40 +5,78 @@ title: Home
 
 <div id="game"></div>
 
-<div class="posts">
-  {% for post in paginator.posts %}
-  <article class="post">
-    <h1 class="post-title">
-      <a href="{{ post.url | relative_url }}">
-        {{ post.title }}
-      </a>
-    </h1>
+{% assign latest = site.posts | first %}
+{% assign older_count = site.posts | size | minus: 1 %}
 
-    <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">{{ post.date | date_to_string }}</time>
+{% if latest %}
+<article class="home-lede">
+  <div class="lede-kicker">
+    <span class="lede-latest">Latest</span>
+    <span class="lede-meta">{{ latest.date | date: "%B %-d, %Y" }}</span>
+  </div>
+  <h1 class="lede-title">{{ latest.title }}</h1>
+  <div class="lede-body">
+    {{ latest.content }}
+  </div>
+  <div class="lede-foot">
+    <button type="button" class="lede-perma" data-copy-link="{{ latest.url | absolute_url }}">permalink</button>
+  </div>
+</article>
+{% endif %}
 
-    {{ post.content }}
-  </article>
+{% if older_count > 0 %}
+<div class="section-head">
+  <span>Older posts</span>
+  <span class="count">{{ older_count }} more</span>
+</div>
+<section class="posts">
+  {% for post in site.posts %}
+  {% if post.url == latest.url %}{% continue %}{% endif %}
+  <a href="{{ post.url | relative_url }}" class="post-row-link">
+    <div class="post-row">
+      <span class="date">{{ post.date | date: "%b %d, %Y" | upcase }}</span>
+      <div>
+        <div class="post-title"><span class="bullet">→</span>{{ post.title }}</div>
+        <div class="excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</div>
+      </div>
+      <div class="tags">
+        {% for tag in post.tags limit:2 %}<span class="tag">{{ tag }}</span>{% endfor %}
+        {% if post.tags.size == 0 and post.category %}<span class="tag">{{ post.category }}</span>{% endif %}
+      </div>
+    </div>
+  </a>
   {% endfor %}
-</div>
-
-<div class="pagination">
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page %}
-    <a class="pagination-item newer" href="{{ paginator.previous_page_path | prepend: relative_url }}">Newer</a>
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
-</div>
+</section>
+{% endif %}
 
 <script type="module">
   import { TileGame } from '{{ "/assets/js/game.js" | relative_url }}';
   window.addEventListener('DOMContentLoaded', () => {
     const game = new TileGame('game');
-    game.container.style.display = 'none'; // Hide game initially
+    game.container.style.display = 'none';
     game.newGame();
+
+    document.querySelectorAll('[data-copy-link]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const url = btn.dataset.copyLink;
+        try {
+          await navigator.clipboard.writeText(url);
+        } catch {
+          const ta = document.createElement('textarea');
+          ta.value = url;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        const original = btn.textContent;
+        btn.textContent = 'copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1400);
+      });
+    });
   });
 </script>

@@ -20,14 +20,4 @@ footer {
   margin-top: var(--spacer-3);
   margin-bottom: var(--spacer-3);
   color: var(--text-muted);
-
-  &::before {
-    content: "/* ";
-    color: var(--text-dim);
-  }
-
-  &::after {
-    content: " */";
-    color: var(--text-dim);
-  }
 }
