@@ -145,11 +145,12 @@
 
 .post-row {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "date tags"
-    "title title"
-    "excerpt excerpt";
+    "date"
+    "title"
+    "excerpt"
+    "tags";
   gap: 6px 12px;
   padding: 18px 0;
   border-top: 1px solid var(--border-color);
@@ -208,16 +209,28 @@
     display: flex;
     gap: 6px;
     flex-wrap: wrap;
-    justify-content: flex-end;
+    margin-top: 4px;
+
+    @media (min-width: 640px) {
+      justify-content: flex-end;
+      margin-top: 0;
+    }
   }
 
   .tag {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-muted);
-    padding: 3px 7px;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    padding: 2px 5px;
     border: 1px solid var(--border-color);
+
+    @media (min-width: 640px) {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 3px 7px;
+    }
   }
 
   .excerpt {
