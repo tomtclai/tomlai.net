@@ -8,7 +8,12 @@
   justify-content: space-between;
   padding: 22px 0;
   border-bottom: 1px solid var(--border-color);
-  gap: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  @media (min-width: 480px) {
+    gap: 24px;
+  }
 }
 
 .mast-id {
@@ -27,12 +32,19 @@
     background: var(--accent-cyan);
     border-radius: 50%;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-cyan) 25%, transparent);
+    flex-shrink: 0;
   }
 }
 
 .mast nav {
   display: flex;
-  gap: 18px;
+  gap: 10px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+
+  @media (min-width: 480px) {
+    gap: 18px;
+  }
 }
 
 .mast nav a {
@@ -40,6 +52,10 @@
   text-decoration: none;
   font-size: 13px;
   transition: color 0.15s;
+  padding: 8px 2px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 
   &:hover {
     color: var(--text-primary);
@@ -47,5 +63,10 @@
 
   &.active {
     color: var(--accent-cyan);
+  }
+
+  @media (min-width: 480px) {
+    min-height: 0;
+    padding: 0;
   }
 }

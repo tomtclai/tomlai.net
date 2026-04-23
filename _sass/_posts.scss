@@ -5,7 +5,7 @@
 
 // Home lede — full latest post
 .home-lede {
-  padding: 48px 0 36px;
+  padding: clamp(24px, 6vw, 48px) 0 clamp(20px, 4vw, 36px);
   border-bottom: 1px solid var(--border-color);
   max-width: 760px;
 
@@ -17,6 +17,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin-bottom: 18px;
+    flex-wrap: wrap;
   }
 
   .lede-latest {
@@ -30,12 +31,13 @@
 
   .lede-title {
     font-family: var(--body-font);
-    font-size: 40px;
+    font-size: clamp(24px, 6vw, 40px);
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
     margin: 0 0 24px;
     color: var(--text-primary);
+    word-break: break-word;
   }
 
   .lede-body {
@@ -88,7 +90,8 @@
     color: var(--accent-cyan);
     background: transparent;
     border: none;
-    padding: 0;
+    padding: 8px 0;
+    min-height: 44px;
     cursor: pointer;
     text-decoration: none;
     letter-spacing: 0.05em;
@@ -105,6 +108,11 @@
       &:hover {
         text-decoration: none;
       }
+    }
+
+    @media (min-width: 480px) {
+      min-height: 0;
+      padding: 0;
     }
   }
 }
@@ -137,12 +145,24 @@
 
 .post-row {
   display: grid;
-  grid-template-columns: 100px 1fr auto;
-  gap: 20px;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "date tags"
+    "title title"
+    "excerpt excerpt";
+  gap: 6px 12px;
   padding: 18px 0;
   border-top: 1px solid var(--border-color);
   align-items: baseline;
   transition: background .15s;
+
+  @media (min-width: 640px) {
+    grid-template-columns: 100px 1fr auto;
+    grid-template-areas:
+      "date title tags"
+      "date excerpt tags";
+    gap: 20px;
+  }
 
   &:last-child {
     border-bottom: 1px solid var(--border-color);
@@ -153,6 +173,7 @@
   }
 
   .date {
+    grid-area: date;
     font-size: 11px;
     color: var(--text-dim);
     letter-spacing: 0.06em;
@@ -161,11 +182,13 @@
   }
 
   .post-title {
-    font-size: 17px;
+    grid-area: title;
+    font-size: clamp(15px, 2.5vw, 17px);
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: -0.01em;
     margin: 0;
+    word-break: break-word;
 
     a {
       color: inherit;
@@ -181,8 +204,11 @@
   }
 
   .tags {
+    grid-area: tags;
     display: flex;
     gap: 6px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .tag {
@@ -195,7 +221,7 @@
   }
 
   .excerpt {
-    grid-column: 2;
+    grid-area: excerpt;
     color: var(--text-muted);
     font-size: 13px;
     line-height: 1.6;
@@ -205,7 +231,7 @@
 
 // Post page (layouts/post.html)
 .post-page {
-  padding: 40px 0 56px;
+  padding: clamp(24px, 5vw, 40px) 0 clamp(32px, 7vw, 56px);
   max-width: 720px;
 
   .crumbs {
@@ -214,6 +240,7 @@
     text-transform: uppercase;
     color: var(--text-dim);
     margin-bottom: 28px;
+    word-break: break-word;
 
     a {
       color: var(--text-muted);
@@ -227,11 +254,12 @@
   }
 
   h1 {
-    font-size: 34px;
+    font-size: clamp(22px, 5.5vw, 34px);
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.02em;
     margin: 0 0 10px;
+    word-break: break-word;
   }
 
   .meta-line {
@@ -242,6 +270,7 @@
     display: flex;
     gap: 14px;
     align-items: center;
+    flex-wrap: wrap;
 
     .dot {
       color: var(--border-color);
@@ -266,5 +295,19 @@
       color: var(--text-primary);
       font-style: italic;
     }
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .table-wrap,
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 }

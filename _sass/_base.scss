@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   font-family: var(--body-font);
@@ -14,10 +18,22 @@ body {
   letter-spacing: 0.01em;
   color: var(--body-color);
   background-color: var(--body-bg);
+  overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
   scrollbar-color: var(--text-dim) var(--bg-base);
   scrollbar-width: thin;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 // No `:visited` state is required by default (browsers will use `a`)
@@ -40,16 +56,28 @@ a {
   color: var(--text-primary);
 }
 
-img {
+img,
+video,
+iframe {
   display: block;
   max-width: 100%;
+  height: auto;
   margin-bottom: var(--spacer);
   border-radius: var(--border-radius);
 }
 
+pre {
+  max-width: 100%;
+  overflow-x: auto;
+  word-wrap: normal;
+}
+
 table {
+  display: block;
   margin-bottom: 1rem;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   border: 0 solid var(--border-color);
   border-collapse: collapse;
 }
