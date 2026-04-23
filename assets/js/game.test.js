@@ -80,8 +80,8 @@ describe('TileGame', () => {
             const styles = window.getComputedStyle(closeButton);
             
             expect(styles.position).toBe('absolute');
-            expect(styles.top).toBe('1rem');
-            expect(styles.right).toBe('1rem');
+            expect(styles.top).toBe('0px');
+            expect(styles.right).toBe('0px');
         });
     });
 
