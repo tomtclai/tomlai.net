@@ -3,8 +3,8 @@
   {% include head.html %}
 
   <body>
-    <div class="container content">
-      <header class="mast">
+    <header class="mast">
+      <div class="mast-inner container">
         <a class="mast-id" href="{{ site.baseurl }}/" title="Home">
           <span class="dot"></span>
           <span>{{ site.title }}</span>
@@ -16,8 +16,10 @@
           <a href="https://www.linkedin.com/in/tomtclai/">linkedin</a>
           <a href="https://github.com/tomtclai">github</a>
         </nav>
-      </header>
+      </div>
+    </header>
 
+    <div class="container content">
       <main>
         {{ content }}
       </main>
@@ -31,6 +33,8 @@
         </small>
       </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js" defer></script>
 
     {% if site.ga_analytics %}
     <script>

@@ -1,230 +1,116 @@
 ---
-layout: null
+layout: default
 permalink: /japanese/
+title: あ / japanese
+japanese_font: true
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>あ / japanese — toms website</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: hsl(220, 13%, 10%);
-      --surface: hsl(220, 13%, 14%);
-      --elevated: hsl(220, 13%, 18%);
-      --fg: hsl(210, 15%, 86%);
-      --muted: hsl(210, 10%, 55%);
-      --dim: hsl(210, 8%, 38%);
-      --border: hsla(210, 15%, 84%, 0.1);
-      --accent: hsl(186, 72%, 55%);
-      --mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', 'Fira Code', Menlo, Consolas, monospace;
-    }
-    @media (prefers-color-scheme: light) {
-      :root {
-        --bg: hsl(45, 22%, 96%);
-        --surface: hsl(45, 18%, 92%);
-        --elevated: hsl(45, 12%, 87%);
-        --fg: hsl(220, 20%, 14%);
-        --muted: hsl(220, 10%, 42%);
-        --dim: hsl(220, 8%, 60%);
-        --border: hsla(220, 20%, 12%, 0.13);
-        --accent: hsl(186, 60%, 32%);
-      }
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { overflow-x: hidden; }
-    body { background: var(--bg); color: var(--fg); font-family: var(--mono); font-size: 15px; line-height: 1.65; -webkit-font-smoothing: antialiased; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
-    .container { max-width: 52rem; margin: 0 auto; padding: 0 1rem; }
-    @media (min-width: 480px) { .container { padding: 0 1.5rem; } }
-
-    .mast { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; border-bottom: 1px solid var(--border); gap: 16px; flex-wrap: wrap; }
-    @media (min-width: 480px) { .mast { gap: 24px; } }
-    .mast-id { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; letter-spacing: -0.01em; color: var(--fg); text-decoration: none; }
-    .mast-id .dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); flex-shrink: 0; }
-    .mast nav { display: flex; gap: 10px; flex-wrap: wrap; row-gap: 4px; }
-    @media (min-width: 480px) { .mast nav { gap: 18px; } }
-    .mast nav a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color .15s; padding: 8px 2px; min-height: 44px; display: inline-flex; align-items: center; }
-    @media (min-width: 480px) { .mast nav a { min-height: 0; padding: 0; } }
-    .mast nav a:hover { color: var(--fg); }
-    .mast nav a.active { color: var(--accent); }
-
-    .jp-page { padding: clamp(20px, 5vw, 36px) 0 clamp(28px, 6vw, 48px); }
-    .jp-head { margin-bottom: 28px; }
-    .jp-head h1 { font-family: 'Noto Sans JP', var(--mono); font-size: clamp(36px, 10vw, 56px); font-weight: 900; letter-spacing: -0.02em; line-height: 1; margin: 0 0 10px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-    .jp-head h1 .jp-sub { font-family: var(--mono); font-size: clamp(13px, 2vw, 15px); font-weight: 400; color: var(--dim); letter-spacing: 0; }
-    .jp-head .jp-dek { color: var(--muted); font-size: 13.5px; max-width: 60ch; margin: 0 0 18px; }
-    .jp-head .jp-controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-
-    .seg { display: inline-flex; border: 1px solid var(--border); background: var(--surface); }
-    .seg button { background: transparent; border: none; color: var(--muted); font-family: var(--mono); font-size: 12px; padding: 10px 14px; min-height: 44px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em; }
-    .seg button.active { background: var(--accent); color: var(--bg); font-weight: 700; }
-    .jp-stat { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; }
-    .jp-stat b { color: var(--fg); font-weight: 700; }
-
-    .kana-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 720px) { .kana-grid { grid-template-columns: repeat(2, 1fr); } }
-    .kana-row { display: grid; grid-template-columns: 36px 1fr; gap: 8px; align-items: stretch; min-width: 0; }
-    @media (min-width: 480px) { .kana-row { grid-template-columns: 40px 1fr; gap: 10px; } }
-    .kana-label { background: var(--rc); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-weight: 900; font-size: 12px; letter-spacing: 0.1em; padding: 4px; }
-    .kana-cells { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; min-width: 0; }
-    .kana-cell { background: color-mix(in srgb, var(--rc), var(--bg) 60%); border: 1px solid color-mix(in srgb, var(--rc), transparent 70%); padding: 8px 2px 6px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; transition: background .15s, transform .1s; min-width: 0; min-height: 44px; }
-    @media (min-width: 480px) { .kana-cell { padding: 10px 4px 8px; } }
-    .kana-cell:hover { background: color-mix(in srgb, var(--rc), var(--bg) 40%); transform: translateY(-1px); }
-    .kana-glyph { font-family: 'Noto Sans JP', sans-serif; font-weight: 900; font-size: clamp(18px, 5vw, 24px); line-height: 1.1; color: color-mix(in srgb, var(--rc), #fff 60%); }
-    .kana-glyph.kata { font-size: clamp(15px, 4.2vw, 20px); opacity: 0.85; }
-    .kana-romaji { font-family: var(--mono); font-size: clamp(9px, 2vw, 10px); text-transform: lowercase; color: color-mix(in srgb, var(--rc), #fff 40%); letter-spacing: 0.05em; margin-top: 2px; }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-    @media (prefers-color-scheme: light) {
-      .kana-cell { background: color-mix(in srgb, var(--rc), #fff 75%); border-color: color-mix(in srgb, var(--rc), transparent 60%); }
-      .kana-glyph { color: color-mix(in srgb, var(--rc), #000 30%); }
-      .kana-romaji { color: color-mix(in srgb, var(--rc), #000 10%); }
-    }
-
-    .jp-hide-hira .kana-glyph:not(.kata) { display: none; }
-    .jp-hide-kata .kana-glyph.kata { display: none; }
-
-    .footer { padding: 22px 0 28px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 40px; flex-wrap: wrap; gap: 8px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header class="mast">
-      <a class="mast-id" href="/">
-        <span class="dot"></span>
-        <span>toms website</span>
-      </a>
-      <nav>
-        <a href="/">index</a>
-        <a href="/#game">🎮</a>
-        <a href="/japanese/" class="active">あ</a>
-        <a href="https://www.linkedin.com/in/tomtclai/">linkedin</a>
-        <a href="https://github.com/tomtclai">github</a>
-      </nav>
-    </header>
-
-    <main class="jp-page">
-      <section class="jp-head">
-        <h1>あ<span class="jp-sub">/japanese</span></h1>
-        <p class="jp-dek">a kana drill. row color = consonant group. toggle below switches what shows in each cell — click through to try it.</p>
-        <div class="jp-controls">
-          <div class="seg">
-            <button data-mode="hira">hira</button>
-            <button data-mode="kata">kata</button>
-            <button data-mode="both" class="active">both</button>
-          </div>
-          <span class="jp-stat">mode: <b>both</b> — showing both (hiragana top, katakana bottom)</span>
-        </div>
-      </section>
-
-      <div class="kana-grid">
-        <div class="kana-row" style="--rc: #e07ca0;">
-          <div class="kana-label">VOW</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">あ</div><div class="kana-glyph kata">ア</div><div class="kana-romaji">a</div></div>
-            <div class="kana-cell"><div class="kana-glyph">い</div><div class="kana-glyph kata">イ</div><div class="kana-romaji">i</div></div>
-            <div class="kana-cell"><div class="kana-glyph">う</div><div class="kana-glyph kata">ウ</div><div class="kana-romaji">u</div></div>
-            <div class="kana-cell"><div class="kana-glyph">え</div><div class="kana-glyph kata">エ</div><div class="kana-romaji">e</div></div>
-            <div class="kana-cell"><div class="kana-glyph">お</div><div class="kana-glyph kata">オ</div><div class="kana-romaji">o</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #e08c3a;">
-          <div class="kana-label">K</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">か</div><div class="kana-glyph kata">カ</div><div class="kana-romaji">ka</div></div>
-            <div class="kana-cell"><div class="kana-glyph">き</div><div class="kana-glyph kata">キ</div><div class="kana-romaji">ki</div></div>
-            <div class="kana-cell"><div class="kana-glyph">く</div><div class="kana-glyph kata">ク</div><div class="kana-romaji">ku</div></div>
-            <div class="kana-cell"><div class="kana-glyph">け</div><div class="kana-glyph kata">ケ</div><div class="kana-romaji">ke</div></div>
-            <div class="kana-cell"><div class="kana-glyph">こ</div><div class="kana-glyph kata">コ</div><div class="kana-romaji">ko</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #d4a020;">
-          <div class="kana-label">S</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">さ</div><div class="kana-glyph kata">サ</div><div class="kana-romaji">sa</div></div>
-            <div class="kana-cell"><div class="kana-glyph">し</div><div class="kana-glyph kata">シ</div><div class="kana-romaji">shi</div></div>
-            <div class="kana-cell"><div class="kana-glyph">す</div><div class="kana-glyph kata">ス</div><div class="kana-romaji">su</div></div>
-            <div class="kana-cell"><div class="kana-glyph">せ</div><div class="kana-glyph kata">セ</div><div class="kana-romaji">se</div></div>
-            <div class="kana-cell"><div class="kana-glyph">そ</div><div class="kana-glyph kata">ソ</div><div class="kana-romaji">so</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #5aaa5a;">
-          <div class="kana-label">T</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">た</div><div class="kana-glyph kata">タ</div><div class="kana-romaji">ta</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ち</div><div class="kana-glyph kata">チ</div><div class="kana-romaji">chi</div></div>
-            <div class="kana-cell"><div class="kana-glyph">つ</div><div class="kana-glyph kata">ツ</div><div class="kana-romaji">tsu</div></div>
-            <div class="kana-cell"><div class="kana-glyph">て</div><div class="kana-glyph kata">テ</div><div class="kana-romaji">te</div></div>
-            <div class="kana-cell"><div class="kana-glyph">と</div><div class="kana-glyph kata">ト</div><div class="kana-romaji">to</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #3a9ec0;">
-          <div class="kana-label">N</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">な</div><div class="kana-glyph kata">ナ</div><div class="kana-romaji">na</div></div>
-            <div class="kana-cell"><div class="kana-glyph">に</div><div class="kana-glyph kata">ニ</div><div class="kana-romaji">ni</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ぬ</div><div class="kana-glyph kata">ヌ</div><div class="kana-romaji">nu</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ね</div><div class="kana-glyph kata">ネ</div><div class="kana-romaji">ne</div></div>
-            <div class="kana-cell"><div class="kana-glyph">の</div><div class="kana-glyph kata">ノ</div><div class="kana-romaji">no</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #7070e0;">
-          <div class="kana-label">H</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">は</div><div class="kana-glyph kata">ハ</div><div class="kana-romaji">ha</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ひ</div><div class="kana-glyph kata">ヒ</div><div class="kana-romaji">hi</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ふ</div><div class="kana-glyph kata">フ</div><div class="kana-romaji">fu</div></div>
-            <div class="kana-cell"><div class="kana-glyph">へ</div><div class="kana-glyph kata">ヘ</div><div class="kana-romaji">he</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ほ</div><div class="kana-glyph kata">ホ</div><div class="kana-romaji">ho</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #c060c0;">
-          <div class="kana-label">M</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">ま</div><div class="kana-glyph kata">マ</div><div class="kana-romaji">ma</div></div>
-            <div class="kana-cell"><div class="kana-glyph">み</div><div class="kana-glyph kata">ミ</div><div class="kana-romaji">mi</div></div>
-            <div class="kana-cell"><div class="kana-glyph">む</div><div class="kana-glyph kata">ム</div><div class="kana-romaji">mu</div></div>
-            <div class="kana-cell"><div class="kana-glyph">め</div><div class="kana-glyph kata">メ</div><div class="kana-romaji">me</div></div>
-            <div class="kana-cell"><div class="kana-glyph">も</div><div class="kana-glyph kata">モ</div><div class="kana-romaji">mo</div></div>
-          </div>
-        </div>
-
-        <div class="kana-row" style="--rc: #40a888;">
-          <div class="kana-label">R</div>
-          <div class="kana-cells">
-            <div class="kana-cell"><div class="kana-glyph">ら</div><div class="kana-glyph kata">ラ</div><div class="kana-romaji">ra</div></div>
-            <div class="kana-cell"><div class="kana-glyph">り</div><div class="kana-glyph kata">リ</div><div class="kana-romaji">ri</div></div>
-            <div class="kana-cell"><div class="kana-glyph">る</div><div class="kana-glyph kata">ル</div><div class="kana-romaji">ru</div></div>
-            <div class="kana-cell"><div class="kana-glyph">れ</div><div class="kana-glyph kata">レ</div><div class="kana-romaji">re</div></div>
-            <div class="kana-cell"><div class="kana-glyph">ろ</div><div class="kana-glyph kata">ロ</div><div class="kana-romaji">ro</div></div>
-          </div>
-        </div>
+<section class="jp-page">
+  <div class="jp-head">
+    <h1>あ<span class="jp-sub">/japanese</span></h1>
+    <p class="jp-dek">a kana drill. row color = consonant group. toggle below switches what shows in each cell — click through to try it.</p>
+    <div class="jp-controls">
+      <div class="seg">
+        <button data-mode="hira">hira</button>
+        <button data-mode="kata">kata</button>
+        <button data-mode="both" class="active">both</button>
       </div>
-    </main>
-
-    <footer class="footer">
-      <span>tom lai</span>
-      <span>あ / japanese</span>
-    </footer>
+      <span class="jp-stat">mode: <b>both</b> — showing both (hiragana top, katakana bottom)</span>
+    </div>
   </div>
 
-  <script>
+  <div class="kana-grid">
+    <div class="kana-row" style="--rc: #e07ca0;">
+      <div class="kana-label">VOW</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">あ</div><div class="kana-glyph kata">ア</div><div class="kana-romaji">a</div></div>
+        <div class="kana-cell"><div class="kana-glyph">い</div><div class="kana-glyph kata">イ</div><div class="kana-romaji">i</div></div>
+        <div class="kana-cell"><div class="kana-glyph">う</div><div class="kana-glyph kata">ウ</div><div class="kana-romaji">u</div></div>
+        <div class="kana-cell"><div class="kana-glyph">え</div><div class="kana-glyph kata">エ</div><div class="kana-romaji">e</div></div>
+        <div class="kana-cell"><div class="kana-glyph">お</div><div class="kana-glyph kata">オ</div><div class="kana-romaji">o</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #e08c3a;">
+      <div class="kana-label">K</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">か</div><div class="kana-glyph kata">カ</div><div class="kana-romaji">ka</div></div>
+        <div class="kana-cell"><div class="kana-glyph">き</div><div class="kana-glyph kata">キ</div><div class="kana-romaji">ki</div></div>
+        <div class="kana-cell"><div class="kana-glyph">く</div><div class="kana-glyph kata">ク</div><div class="kana-romaji">ku</div></div>
+        <div class="kana-cell"><div class="kana-glyph">け</div><div class="kana-glyph kata">ケ</div><div class="kana-romaji">ke</div></div>
+        <div class="kana-cell"><div class="kana-glyph">こ</div><div class="kana-glyph kata">コ</div><div class="kana-romaji">ko</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #d4a020;">
+      <div class="kana-label">S</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">さ</div><div class="kana-glyph kata">サ</div><div class="kana-romaji">sa</div></div>
+        <div class="kana-cell"><div class="kana-glyph">し</div><div class="kana-glyph kata">シ</div><div class="kana-romaji">shi</div></div>
+        <div class="kana-cell"><div class="kana-glyph">す</div><div class="kana-glyph kata">ス</div><div class="kana-romaji">su</div></div>
+        <div class="kana-cell"><div class="kana-glyph">せ</div><div class="kana-glyph kata">セ</div><div class="kana-romaji">se</div></div>
+        <div class="kana-cell"><div class="kana-glyph">そ</div><div class="kana-glyph kata">ソ</div><div class="kana-romaji">so</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #5aaa5a;">
+      <div class="kana-label">T</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">た</div><div class="kana-glyph kata">タ</div><div class="kana-romaji">ta</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ち</div><div class="kana-glyph kata">チ</div><div class="kana-romaji">chi</div></div>
+        <div class="kana-cell"><div class="kana-glyph">つ</div><div class="kana-glyph kata">ツ</div><div class="kana-romaji">tsu</div></div>
+        <div class="kana-cell"><div class="kana-glyph">て</div><div class="kana-glyph kata">テ</div><div class="kana-romaji">te</div></div>
+        <div class="kana-cell"><div class="kana-glyph">と</div><div class="kana-glyph kata">ト</div><div class="kana-romaji">to</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #3a9ec0;">
+      <div class="kana-label">N</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">な</div><div class="kana-glyph kata">ナ</div><div class="kana-romaji">na</div></div>
+        <div class="kana-cell"><div class="kana-glyph">に</div><div class="kana-glyph kata">ニ</div><div class="kana-romaji">ni</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ぬ</div><div class="kana-glyph kata">ヌ</div><div class="kana-romaji">nu</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ね</div><div class="kana-glyph kata">ネ</div><div class="kana-romaji">ne</div></div>
+        <div class="kana-cell"><div class="kana-glyph">の</div><div class="kana-glyph kata">ノ</div><div class="kana-romaji">no</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #7070e0;">
+      <div class="kana-label">H</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">は</div><div class="kana-glyph kata">ハ</div><div class="kana-romaji">ha</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ひ</div><div class="kana-glyph kata">ヒ</div><div class="kana-romaji">hi</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ふ</div><div class="kana-glyph kata">フ</div><div class="kana-romaji">fu</div></div>
+        <div class="kana-cell"><div class="kana-glyph">へ</div><div class="kana-glyph kata">ヘ</div><div class="kana-romaji">he</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ほ</div><div class="kana-glyph kata">ホ</div><div class="kana-romaji">ho</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #c060c0;">
+      <div class="kana-label">M</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">ま</div><div class="kana-glyph kata">マ</div><div class="kana-romaji">ma</div></div>
+        <div class="kana-cell"><div class="kana-glyph">み</div><div class="kana-glyph kata">ミ</div><div class="kana-romaji">mi</div></div>
+        <div class="kana-cell"><div class="kana-glyph">む</div><div class="kana-glyph kata">ム</div><div class="kana-romaji">mu</div></div>
+        <div class="kana-cell"><div class="kana-glyph">め</div><div class="kana-glyph kata">メ</div><div class="kana-romaji">me</div></div>
+        <div class="kana-cell"><div class="kana-glyph">も</div><div class="kana-glyph kata">モ</div><div class="kana-romaji">mo</div></div>
+      </div>
+    </div>
+
+    <div class="kana-row" style="--rc: #40a888;">
+      <div class="kana-label">R</div>
+      <div class="kana-cells">
+        <div class="kana-cell"><div class="kana-glyph">ら</div><div class="kana-glyph kata">ラ</div><div class="kana-romaji">ra</div></div>
+        <div class="kana-cell"><div class="kana-glyph">り</div><div class="kana-glyph kata">リ</div><div class="kana-romaji">ri</div></div>
+        <div class="kana-cell"><div class="kana-glyph">る</div><div class="kana-glyph kata">ル</div><div class="kana-romaji">ru</div></div>
+        <div class="kana-cell"><div class="kana-glyph">れ</div><div class="kana-glyph kata">レ</div><div class="kana-romaji">re</div></div>
+        <div class="kana-cell"><div class="kana-glyph">ろ</div><div class="kana-glyph kata">ロ</div><div class="kana-romaji">ro</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
     const grid = document.querySelector('.kana-grid');
     const stat = document.querySelector('.jp-stat');
     const MODES = {
@@ -241,6 +127,5 @@ permalink: /japanese/
         stat.innerHTML = 'mode: <b>' + mode + '</b> — ' + MODES[mode].desc;
       });
     });
-  </script>
-</body>
-</html>
+  })();
+</script>

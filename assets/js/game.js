@@ -1,3 +1,40 @@
+const STORAGE_KEY = 'tomlai:game:v1';
+
+function loadStoredState() {
+    // One-time migration from the legacy bare 'bestScore' key.
+    try {
+        const legacy = localStorage.getItem('bestScore');
+        const current = localStorage.getItem(STORAGE_KEY);
+        if (legacy != null && current == null) {
+            const parsed = parseInt(legacy, 10);
+            const bestScore = Number.isFinite(parsed) ? parsed : 0;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ bestScore }));
+            if (typeof localStorage.removeItem === 'function') {
+                localStorage.removeItem('bestScore');
+            }
+        }
+    } catch (_) {
+        // localStorage unavailable — fall through to defaults
+    }
+
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return { bestScore: 0 };
+        const parsed = JSON.parse(raw);
+        return { bestScore: Number.isFinite(parsed.bestScore) ? parsed.bestScore : 0 };
+    } catch (_) {
+        return { bestScore: 0 };
+    }
+}
+
+function saveStoredState(state) {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (_) {
+        // ignore
+    }
+}
+
 export class TileGame {
     constructor(containerId) {
         // Game constants (retained for getGridPosition math / tests)
@@ -38,52 +75,6 @@ export class TileGame {
             </div>
         `;
 
-        // Add confetti script
-        if (!document.getElementById('confetti-script')) {
-            const script = document.createElement('script');
-            script.id = 'confetti-script';
-            script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
-            document.head.appendChild(script);
-        }
-
-        // Add styles — Direction A: Terminal Journal
-        const style = document.createElement('style');
-        style.textContent = `
-            #game { max-width: 100%; overflow-x: hidden; }
-            #game .game-page { padding: clamp(20px, 5vw, 36px) 0 clamp(28px, 6vw, 48px); max-width: 820px; margin: 0 auto; position: relative; }
-            #game .game-head { margin-bottom: clamp(20px, 4vw, 32px); position: relative; padding-right: 40px; }
-            #game .game-head h1 { font-family: var(--body-font); font-size: clamp(22px, 6vw, 34px); font-weight: 700; letter-spacing: -0.02em; margin: 0 0 16px; color: var(--text-primary); word-break: break-word; }
-            #game .game-head .rules { display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: var(--text-muted); }
-            #game .game-head .rule { display: flex; gap: 8px; }
-            #game .game-head .rule .k { flex-shrink: 0; width: 48px; color: var(--text-dim); text-transform: uppercase; font-size: 10px; letter-spacing: 0.14em; padding-top: 3px; }
-            #game .close-button { position: absolute; top: 0; right: 0; background: transparent; border: none; color: var(--text-dim); font-size: 28px; cursor: pointer; line-height: 1; padding: 8px; min-width: 44px; min-height: 44px; transition: color .15s; }
-            #game .close-button:hover { color: var(--text-primary); }
-            #game .game-grid-wrap { display: flex; flex-direction: column; gap: 20px; padding: clamp(14px, 4vw, 28px); border: 1px solid var(--border-color); background: var(--bg-surface); margin-bottom: 28px; align-items: stretch; }
-            @media (min-width: 640px) { #game .game-grid-wrap { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; } }
-            #game .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(4px, 1.5vw, 8px); width: 100%; max-width: min(320px, 100%); aspect-ratio: 1; margin: 0 auto; }
-            @media (min-width: 640px) { #game .game-grid { grid-template-columns: repeat(3, 96px); grid-template-rows: repeat(3, 96px); gap: 8px; width: auto; max-width: none; aspect-ratio: auto; margin: 0; } }
-            #game .gt { width: 100%; height: 100%; aspect-ratio: 1; border: 1px solid var(--border-color); background: var(--bg-elevated); cursor: pointer; transition: background .12s, transform .1s; padding: 0; }
-            @media (min-width: 640px) { #game .gt { width: 96px; height: 96px; aspect-ratio: auto; } }
-            #game .gt:hover { border-color: var(--accent-cyan); }
-            #game .gt:active { transform: scale(0.96); }
-            #game .gt.on { background: var(--accent-cyan); border-color: var(--accent-cyan); }
-            #game .game-readout { display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-family: var(--body-font); }
-            @media (min-width: 640px) { #game .game-readout { min-width: 200px; } }
-            #game .game-readout .ro-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border-color); gap: 12px; }
-            #game .game-readout .ro-row .lbl { color: var(--text-dim); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; }
-            #game .game-readout .ro-row .val { font-variant-numeric: tabular-nums; color: var(--text-primary); font-weight: 700; text-align: right; word-break: break-word; }
-            #game .game-readout .ro-row .val.hi { color: var(--accent-cyan); }
-            #game .game-readout .ro-row .val.dim { color: var(--text-muted); font-weight: 400; }
-            #game .game-readout hr { border: 0; border-top: 1px solid var(--border-color); margin: 8px 0 4px; }
-            #game .btn-mono { background: var(--accent-cyan); color: var(--bg-base); border: none; padding: 12px 14px; min-height: 44px; font-family: var(--body-font); font-size: 13px; font-weight: 700; text-align: left; cursor: pointer; margin-bottom: 2px; transition: opacity .15s; }
-            #game .btn-mono:hover { opacity: 0.85; }
-            #game #message { color: var(--accent-cyan); font-weight: bold; min-height: 1.5em; margin: 1rem 0; font-family: var(--body-font); }
-            @media (prefers-reduced-motion: reduce) {
-              #game *, #game *::before, #game *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
-            }
-        `;
-        document.head.appendChild(style);
-
         // Get elements
         this.canvas = document.getElementById('gameCanvas');
         this.ctx = this.canvas.getContext ? this.canvas.getContext('2d') : null;
@@ -96,11 +87,12 @@ export class TileGame {
         this.closeBtn = this.container.querySelector('.close-button');
 
         // Initialize game state
+        const stored = loadStoredState();
         this.gameState = {
             grid: Array(this.GRID_SIZE).fill().map(() => Array(this.GRID_SIZE).fill(false)),
             moves: 0,
             isGameOver: false,
-            bestScore: parseInt(localStorage.getItem('bestScore')) || 0
+            bestScore: stored.bestScore
         };
 
         // Set up event listeners
@@ -243,11 +235,12 @@ export class TileGame {
         // Check win condition
         if (this.isWinState()) {
             this.gameState.isGameOver = true;
-            const currentBestScore = parseInt(localStorage.getItem('bestScore')) || 0;
+            const stored = loadStoredState();
+            const currentBestScore = stored.bestScore;
             const isNewBest = currentBestScore === 0 || this.gameState.moves < currentBestScore;
 
             if (isNewBest) {
-                localStorage.setItem('bestScore', this.gameState.moves.toString());
+                saveStoredState({ bestScore: this.gameState.moves });
                 this.gameState.bestScore = this.gameState.moves;
                 this.updateBestScore();
                 this.messageEl.textContent = `New best score: ${this.gameState.moves} moves!`;
@@ -293,6 +286,15 @@ export class TileGame {
         }
     }
 
+    show() {
+        this.container.style.display = 'block';
+        this.container.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    hide() {
+        this.container.style.display = 'none';
+    }
+
     newGame() {
         // Reset game state
         this.gameState.grid = Array(this.GRID_SIZE).fill().map(() => Array(this.GRID_SIZE).fill(false));
@@ -322,47 +324,3 @@ export class TileGame {
         this.renderGrid();
     }
 }
-
-// Initialize game and set up navigation handling
-document.addEventListener('DOMContentLoaded', () => {
-    const game = new TileGame('game');
-
-    // Handle navigation clicks
-    document.addEventListener('click', (event) => {
-        const isGameLink = event.target.matches('a[href="/#game"]') ||
-                          (event.target.closest('a') && event.target.closest('a').getAttribute('href') === '/#game');
-
-        if (isGameLink) {
-            event.preventDefault();
-            // Toggle game container visibility
-            const gameContainer = document.getElementById('game');
-            if (gameContainer.style.display === 'none') {
-                gameContainer.style.display = 'block';
-                gameContainer.scrollIntoView({ behavior: 'smooth' });
-                // Update URL hash without triggering a scroll
-                history.pushState(null, '', '#game');
-            } else {
-                gameContainer.style.display = 'none';
-                // Remove hash from URL when hiding game
-                history.pushState(null, '', '/');
-            }
-        }
-    });
-
-    // Handle URL-based navigation and back/forward buttons
-    window.addEventListener('popstate', () => {
-        const gameContainer = document.getElementById('game');
-        if (window.location.hash === '#game') {
-            gameContainer.style.display = 'block';
-            gameContainer.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            gameContainer.style.display = 'none';
-        }
-    });
-
-    // Check initial URL hash
-    if (window.location.hash === '#game') {
-        document.getElementById('game').style.display = 'block';
-        document.getElementById('game').scrollIntoView({ behavior: 'smooth' });
-    }
-});

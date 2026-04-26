@@ -6,6 +6,7 @@
 .message {
   padding: var(--spacer);
   margin-bottom: var(--spacer);
+  font-family: var(--mono-font);
   color: var(--text-primary);
   background-color: color-mix(in oklch, var(--accent-amber) 15%, var(--bg-surface));
   border-radius: var(--border-radius);

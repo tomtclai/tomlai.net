@@ -51,10 +51,35 @@ title: Home
 
 <script type="module">
   import { TileGame } from '{{ "/assets/js/game.js" | relative_url }}';
+  import { register, start } from '{{ "/assets/js/router.js" | relative_url }}';
   window.addEventListener('DOMContentLoaded', () => {
     const game = new TileGame('game');
-    game.container.style.display = 'none';
+    game.hide();
     game.newGame();
+
+    // Hash router: show/hide the game in response to #game.
+    register('#game', (active) => {
+      if (active) {
+        game.show();
+      } else {
+        game.hide();
+      }
+    });
+    start();
+
+    // Toggle behaviour on clicks of the 🎮 nav link: a second click hides
+    // the game and clears the hash. The router handles the show side.
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('a');
+      if (!link) return;
+      const href = link.getAttribute('href');
+      if (href !== '/#game' && href !== '#game') return;
+      if (window.location.hash === '#game') {
+        event.preventDefault();
+        history.pushState(null, '', '/');
+        game.hide();
+      }
+    });
 
     document.querySelectorAll('[data-copy-link]').forEach((btn) => {
       btn.addEventListener('click', async () => {

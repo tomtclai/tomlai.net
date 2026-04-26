@@ -3,11 +3,16 @@
 // Super small header above the content for site name and short description.
 
 .mast {
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--mono-font);
+}
+
+.mast-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--border-color);
+  padding-top: 22px;
+  padding-bottom: 22px;
   gap: 16px;
   flex-wrap: wrap;
 
@@ -20,6 +25,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--mono-font);
   font-weight: 700;
   font-size: 14px;
   letter-spacing: -0.01em;
@@ -50,6 +56,7 @@
 .mast nav a {
   color: var(--text-muted);
   text-decoration: none;
+  font-family: var(--mono-font);
   font-size: 13px;
   transition: color 0.15s;
   padding: 8px 2px;

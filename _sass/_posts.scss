@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    font-family: var(--mono-font);
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -30,7 +31,7 @@
   }
 
   .lede-title {
-    font-family: var(--body-font);
+    font-family: var(--prose-font);
     font-size: clamp(24px, 6vw, 40px);
     font-weight: 700;
     line-height: 1.1;
@@ -41,6 +42,8 @@
   }
 
   .lede-body {
+    font-family: var(--prose-font);
+
     p {
       color: var(--text-primary);
       font-size: 14.5px;
@@ -85,7 +88,7 @@
   }
 
   .lede-perma {
-    font-family: inherit;
+    font-family: var(--mono-font);
     font-size: 12px;
     color: var(--accent-cyan);
     background: transparent;
@@ -123,6 +126,7 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  font-family: var(--mono-font);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -175,6 +179,7 @@
 
   .date {
     grid-area: date;
+    font-family: var(--mono-font);
     font-size: 11px;
     color: var(--text-dim);
     letter-spacing: 0.06em;
@@ -184,6 +189,7 @@
 
   .post-title {
     grid-area: title;
+    font-family: var(--prose-font);
     font-size: clamp(15px, 2.5vw, 17px);
     font-weight: 700;
     color: var(--text-primary);
@@ -218,6 +224,7 @@
   }
 
   .tag {
+    font-family: var(--mono-font);
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -246,8 +253,10 @@
 .post-page {
   padding: clamp(24px, 5vw, 40px) 0 clamp(32px, 7vw, 56px);
   max-width: 720px;
+  font-family: var(--prose-font);
 
   .crumbs {
+    font-family: var(--mono-font);
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -267,6 +276,7 @@
   }
 
   h1 {
+    font-family: var(--prose-font);
     font-size: clamp(22px, 5.5vw, 34px);
     font-weight: 700;
     line-height: 1.15;
@@ -276,6 +286,7 @@
   }
 
   .meta-line {
+    font-family: var(--mono-font);
     font-size: 12px;
     color: var(--text-dim);
     letter-spacing: 0.05em;

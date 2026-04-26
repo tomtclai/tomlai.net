@@ -75,13 +75,12 @@ describe('TileGame', () => {
             expect(window.history.pushState).toHaveBeenCalledWith(null, '', '/');
         });
 
-        test('should be positioned correctly in the game container', () => {
+        test('should render with the .close-button class for SASS to position', () => {
+            // Positioning is now handled by _sass/_game.scss (compiled by Jekyll),
+            // not runtime style injection — so we only assert the hook is present.
             const closeButton = document.querySelector('.close-button');
-            const styles = window.getComputedStyle(closeButton);
-            
-            expect(styles.position).toBe('absolute');
-            expect(styles.top).toBe('0px');
-            expect(styles.right).toBe('0px');
+            expect(closeButton).toBeTruthy();
+            expect(closeButton.classList.contains('close-button')).toBe(true);
         });
     });
 
@@ -134,13 +133,15 @@ describe('TileGame', () => {
     });
 
     describe('Score Management', () => {
+        const STORAGE_KEY = 'tomlai:game:v1';
+
         test('should update best score when winning with better score', () => {
-            // Set up initial best score
-            localStorage.setItem('bestScore', '10');
-            
-            // Create a new game instance to pick up the mocked best score
+            // Set up initial best score using the new namespaced/versioned shape
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ bestScore: 10 }));
+
+            // Create a new game instance to pick up the stored best score
             game = new TileGame('game');
-            
+
             // Set up a state that will result in all true values after toggling center tile
             game.gameState.moves = 5;
             game.gameState.grid = [
@@ -148,29 +149,32 @@ describe('TileGame', () => {
                 [false, false, false],
                 [true, false, true]
             ];
-            
+
             // Clear any previous localStorage calls
             jest.clearAllMocks();
-            
+
             // Trigger win by toggling center tile (1,1)
             game.toggleTiles(1, 1);
-            
+
             // Log grid state for debugging
             console.log('Grid state after toggle:', game.gameState.grid);
             console.log('Is win state:', game.isWinState());
-            
-            // Verify the best score was updated
-            expect(localStorage.setItem).toHaveBeenCalledWith('bestScore', '6');
+
+            // Verify the best score was updated under the namespaced key
+            expect(localStorage.setItem).toHaveBeenCalledWith(
+                STORAGE_KEY,
+                JSON.stringify({ bestScore: 6 })
+            );
             expect(game.gameState.bestScore).toBe(6);
         });
 
         test('should not update best score when winning with worse score', () => {
             // Set up initial best score
-            localStorage.setItem('bestScore', '5');
-            
-            // Create a new game instance to pick up the mocked best score
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({ bestScore: 5 }));
+
+            // Create a new game instance to pick up the stored best score
             game = new TileGame('game');
-            
+
             // Set up a state that will result in a win after toggling
             game.gameState.moves = 10;
             game.gameState.grid = [
@@ -178,16 +182,30 @@ describe('TileGame', () => {
                 [true, false, true],
                 [false, true, false]
             ];
-            
+
             // Clear any previous localStorage calls
             jest.clearAllMocks();
-            
+
             // Trigger win by toggling center tile (1,1)
             game.toggleTiles(1, 1);
-            
+
             // Verify the best score was not updated
             expect(localStorage.setItem).not.toHaveBeenCalled();
             expect(game.gameState.bestScore).toBe(5);
+        });
+
+        test('should migrate legacy bestScore key into the namespaced shape', () => {
+            // Seed only the legacy bare key
+            localStorage.setItem('bestScore', '7');
+
+            // Constructing a new game should trigger the one-time migration
+            game = new TileGame('game');
+
+            expect(localStorage.getItem('bestScore')).toBeNull();
+            expect(localStorage.getItem(STORAGE_KEY)).toBe(
+                JSON.stringify({ bestScore: 7 })
+            );
+            expect(game.gameState.bestScore).toBe(7);
         });
     });
 
