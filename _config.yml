@@ -15,12 +15,16 @@ plugins:
 exclude:
   - .editorconfig
   - .git
+  - .github
   - .jekyll-cache
   - Gemfile
   - Gemfile.lock
   - LICENSE.md
   - README.md
   - node_modules
+  - package.json
+  - package-lock.json
+  - vendor
 
 sass:
   sass_dir: _sass
